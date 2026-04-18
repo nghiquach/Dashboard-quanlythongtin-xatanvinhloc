@@ -23,8 +23,6 @@ Dự án xây dựng một hệ thống Dashboard tập trung nhằm hợp nhấ
 
 Việc tập trung hóa dữ liệu này nhằm thúc đẩy mục tiêu chuyển đổi số và nâng cao năng lực điều hành thông qua hệ thống biểu đồ giám sát chặt chẽ tiến độ ngân sách, tỷ lệ số hóa hồ sơ và các chỉ tiêu an sinh xã hội. Bằng cách loại bỏ sự rời rạc trong báo cáo thủ công, dự án tạo ra một môi trường quản lý minh bạch, giúp lãnh đạo địa phương đưa ra các quyết định chính xác và kịp thời dựa trên dữ liệu thực tế.
 
-* **🌐 Tham khảo dữ liệu:** [Bảng tính chỉ tiêu mẫu](https://docs.google.com/spreadsheets/d/1BOm7YSOHoc57uF8MdnHIcPe7UtCi4BD_/edit?fbclid=IwY2xjawRQjpxleHRuA2FlbQIxMABicmlkETFmdmxjN01TS3lqRmJVdTVKc3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHroaS48xIignB6OiVbIMYtAZytIS73zhpsDpdhzwtlmMAd7FIjZokWdrAR-y_aem_vRzANqsGfHRuJzlpiH3q9Q&gid=69305681#gid=69305681)
-
 ---
 
 ## 2. 💻 Công nghệ và Kiến trúc hệ thống
