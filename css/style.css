@@ -120,7 +120,7 @@
     gap: 15px;
 }
 
-.filter-box button {
+.filter-box select {
     background-color: var(--bg-white);
     color: var(--text-black);
     border: none;
@@ -129,6 +129,7 @@
     font-size: 13px;
     font-weight: bold;
     cursor: pointer;
+    outline: none;
 }
 .social-icons {
     display: flex;
@@ -262,4 +263,76 @@
     height: 200px;
     border-radius: 50%; 
     border: 45px solid var(--success-green); /
+}
+/* --- CSS CHO DROPDOWN AVATAR --- */
+.user-profile {
+    position: relative; /* Trụ cột để menu neo vào */
+    margin-left: auto; 
+    margin-top: -3px;
+}
+
+.profile-dropdown {
+    position: absolute;
+    top: 55px; /* Cách avatar một đoạn vừa phải */
+    right: 0; /* Căn sát mép phải của avatar */
+    width: 260px;
+    background-color: var(--bg-white);
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    padding: 20px;
+    display: none; /* Mặc định ẨN */
+    z-index: 1000;
+    border: 1px solid #eee;
+}
+
+/* Class dùng để JS gọi ra */
+.profile-dropdown.show {
+    display: block;
+    animation: dropDownAnim 0.2s ease;
+}
+
+@keyframes dropDownAnim {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Style cho form đăng nhập mini */
+#dropdown-login-form input {
+    width: 100%;
+    padding: 10px 12px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 13px;
+    outline: none;
+}
+#dropdown-login-form input:focus {
+    border-color: var(--primary-blue);
+}
+.btn-drop-login {
+    width: 100%;
+    padding: 10px;
+    background-color: var(--primary-blue);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+/* Style cho list tính năng sau khi đăng nhập */
+.profile-links {
+    list-style: none;
+}
+.profile-links li {
+    margin-bottom: 10px;
+}
+.profile-links a {
+    text-decoration: none;
+    color: var(--text-gray-70);
+    font-size: 14px;
+}
+.profile-links a:hover {
+    color: var(--primary-blue);
 }
