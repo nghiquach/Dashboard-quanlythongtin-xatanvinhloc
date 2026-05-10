@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>An ninh - Trật tự | Đảng Ủy Xã Tân Vĩnh Lộc</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+
+        :root {
+            --bg-blue: #6479F2;
+            --bg-white: #FFFFFF;
+            --primary-blue: #4946ED;
+            --secondary-blue: #3F75FF;
+            --dark-blue: #0E4597;
+            --success-green: #43C32F;
+            --dark-green: #169516;
+            --text-black: #000000;
+            --text-gray-70: rgba(0,0,0,0.7);
+            --text-gray-30: rgba(0,0,0,0.3);
+            --danger-red: #E53935;
+            --warning-orange: #FB8C00;
+        }
+
+        /* ====== HEADER ====== */
+        .top-nav {
+            display: flex;
+            align-items: center;
+            padding: 0 40px;
+            height: 80px;
+            background-color: #fff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .nav-left { display: flex; align-items: center; gap: 12px; }
+        .logo-placeholder {
+            width: 48px; height: 48px;
+            background: linear-gradient(135deg, #E53935, #FFD600);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 22px;
+        }
+        .brand-text { line-height: 1.2; }
+        .brand-text strong { font-size: 14px; color: var(--dark-blue); display: block; }
+        .brand-text span { font-size: 12px; color: var(--text-gray-70); }
+
+        .nav-right {
+            display: flex; align-items: center;
+            flex: 1; margin-left: 50px; gap: 0;
+        }
+        .menu-list { display: flex; list-style: none; gap: 28px; }
+        .menu-item {
+            text-decoration: none;
+            color: var(--text-gray-70);
+            font-size: 15px; font-weight: 500;
+            padding: 6px 0;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+        .menu-item:hover { color: var(--primary-blue); }
+        .menu-item.active {
+            color: var(--primary-blue);
+            font-weight: 700;
+            border-bottom: 2px solid var(--primary-blue);
+        }
+        .user-avatar {
+            margin-left: auto;
+            width: 40px; height: 40px;
+            background-color: var(--primary-blue);
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-size: 18px; cursor: pointer;
+        }
+
+        /* ====== MAIN ====== */
+        .main-dashboard {
+            background-color: var(--bg-blue);
+            padding: 30px 40px 60px 40px;
+            min-height: calc(100vh - 80px);
+        }
+
+        /* ====== DASHBOARD HEADER ====== */
+        .dashboard-header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 25px;
+        }
+        .title-box h1 { color: #fff; font-size: 26px; text-transform: uppercase; margin-bottom: 4px; }
+        .title-box p { color: rgba(255,255,255,0.8); font-size: 14px; }
+        .filter-box { display: flex; gap: 12px; }
+        .filter-box select {
+            background: #fff; color: var(--text-black);
+            border: none; padding: 10px 20px;
+            border-radius: 8px; font-size: 13px; font-weight: bold;
+            cursor: pointer; outline: none;
+        }
+
+        /* ====== STAT CARDS ====== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-bottom: 20px;
+        }
+        .stat-card {
+            background: var(--bg-white);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .card-top {
+            display: flex; justify-content: space-between; align-items: flex-start;
+            margin-bottom: 8px;
+        }
+        .card-title { font-weight: 700; color: #333; font-size: 14px; }
+        .card-icon { font-size: 22px; }
+        .card-number { font-size: 34px; font-weight: bold; margin: 8px 0; }
+        .card-number.red { color: var(--danger-red); }
+        .card-number.orange { color: var(--warning-orange); }
+        .card-number.green { color: var(--success-green); }
+        .card-number.blue { color: var(--primary-blue); }
+        .card-desc { font-size: 13px; color: #666; line-height: 1.5; }
+        .card-trend { font-size: 12px; font-weight: bold; margin-top: 6px; }
+        .card-trend.up { color: var(--danger-red); }
+        .card-trend.down { color: var(--success-green); }
+        .card-trend.neutral { color: var(--warning-orange); }
+        .card-time { font-size: 11px; color: #999; margin-top: 4px; }
+
+        /* ====== CHARTS AREA ====== */
+        .charts-row {
+            display: flex; gap: 18px; margin-top: 0;
+        }
+        .chart-card {
+            background: var(--bg-white);
+            border-radius: 12px;
+            padding: 22px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .chart-card.flex-2 { flex: 2; min-width: 0; }
+        .chart-card.flex-1 { flex: 1; min-width: 0; }
+        .chart-card h3 { font-size: 16px; font-weight: 700; color: #222; margin-bottom: 4px; }
+        .chart-card p.sub { font-size: 13px; color: #888; margin-bottom: 16px; }
+        .chart-wrap { position: relative; height: 280px; }
+
+        /* ====== VIOLATIONS TABLE ====== */
+        .table-card {
+            background: var(--bg-white);
+            border-radius: 12px;
+            padding: 22px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-top: 18px;
+        }
+        .table-card h3 { font-size: 16px; font-weight: 700; color: #222; margin-bottom: 4px; }
+        .table-card p.sub { font-size: 13px; color: #888; margin-bottom: 14px; }
+        table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        thead tr { background: #F5F6FF; }
+        thead th { padding: 10px 14px; text-align: left; font-weight: 700; color: var(--primary-blue); border-bottom: 2px solid #E8E8FF; }
+        tbody tr { border-bottom: 1px solid #F0F0F0; transition: background 0.15s; }
+        tbody tr:hover { background: #FAFBFF; }
+        tbody td { padding: 10px 14px; color: #444; }
+        .badge {
+            display: inline-block; padding: 3px 10px;
+            border-radius: 20px; font-size: 11px; font-weight: 700;
+        }
+        .badge.red { background: #FFEBEE; color: var(--danger-red); }
+        .badge.orange { background: #FFF3E0; color: var(--warning-orange); }
+        .badge.blue { background: #EEF0FF; color: var(--primary-blue); }
+
+        /* ====== SOCIAL ICONS ====== */
+        .social-icons-contact {
+            position: fixed; right: 20px; bottom: 80px;
+            display: flex; flex-direction: column; gap: 14px; z-index: 9999;
+        }
+        .icon-circle {
+            display: flex; align-items: center; justify-content: center;
+            width: 48px; height: 48px;
+            background: #fff; border-radius: 50%;
+            border: 2px solid #E0E0E0;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+            text-decoration: none; font-size: 22px;
+            transition: all 0.3s;
+        }
+        .icon-circle:hover { transform: translateY(-3px); box-shadow: 0 6px 15px rgba(0,0,0,0.2); }
+
+        /* ====== LEGEND ====== */
+        .legend-list { display: flex; gap: 18px; flex-wrap: wrap; margin-bottom: 10px; }
+        .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #555; }
+        .legend-dot { width: 12px; height: 12px; border-radius: 3px; }
+    </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="top-nav">
+    <div class="nav-left">
+        <div class="logo-placeholder">⭐</div>
+        <div class="brand-text">
+            <strong>ĐẢNG UỶ XÃ</strong>
+            <span>Tân Vĩnh Lộc</span>
+        </div>
+    </div>
+    <div class="nav-right">
+        <nav>
+            <ul class="menu-list">
+                <li><a href="#" class="menu-item">Tổng quan</a></li>
+                <li><a href="#" class="menu-item">Đảng viên</a></li>
+                <li><a href="#" class="menu-item">Tài chính</a></li>
+                <li><a href="#" class="menu-item active">An ninh - Trật tự</a></li>
+                <li><a href="#" class="menu-item">Kinh tế - XH</a></li>
+            </ul>
+        </nav>
+        <div class="user-avatar">👤</div>
+    </div>
+</header>
+
+<!-- MAIN CONTENT -->
+<main class="main-dashboard">
+
+    <!-- Dashboard Header -->
+    <div class="dashboard-header">
+        <div class="title-box">
+            <h1>AN NINH - TRẬT TỰ</h1>
+            <p id="header-time">Hệ thống tự động cập nhật</p>
+        </div>
+        <div class="filter-box">
+            <select id="year-filter">
+                <option value="2026">Năm 2026</option>
+                <option value="2025">Năm 2025</option>
+                <option value="2024">Năm 2024</option>
+            </select>
+            <select id="month-filter">
+                <option value="Tháng 4">Tháng 4</option>
+                <option value="Tháng 3">Tháng 3</option>
+                <option value="Tháng 2">Tháng 2</option>
+                <option value="Tháng 1">Tháng 1</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- STAT CARDS: 3 thẻ chính (Vi phạm, Trật tự ĐT, Kiểm tra chuyên đề) -->
+    <div class="stats-grid" id="stats-grid">
+        <!-- Populated by JS -->
+    </div>
+
+    <!-- CHARTS ROW -->
+    <div class="charts-row">
+        <!-- Biểu đồ tròn phân loại vi phạm -->
+        <div class="chart-card flex-1">
+            <h3>Phân loại Vi phạm Pháp luật</h3>
+            <p class="sub">Tháng 4/2026 - Phân theo hành vi</p>
+            <div class="chart-wrap">
+                <canvas id="pieChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Biểu đồ cột xử phạt chuyên đề -->
+        <div class="chart-card flex-2">
+            <h3>Thống kê Xử phạt Chuyên đề theo Tháng</h3>
+            <p class="sub">6 tháng gần nhất - Theo loại vi phạm (triệu đồng)</p>
+            <div class="legend-list">
+                <div class="legend-item"><div class="legend-dot" style="background:#E53935"></div>ATTP</div>
+                <div class="legend-item"><div class="legend-dot" style="background:#FB8C00"></div>Xây dựng trái phép</div>
+                <div class="legend-item"><div class="legend-dot" style="background:#4946ED"></div>Lấn chiếm vỉa hè</div>
+            </div>
+            <div class="chart-wrap">
+                <canvas id="barChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- VIOLATION TABLE -->
+    <div class="table-card">
+        <h3>Chi tiết Vi phạm gần đây</h3>
+        <p class="sub">10 vụ việc mới nhất trong tháng</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Loại vi phạm</th>
+                    <th>Địa điểm</th>
+                    <th>Ngày ghi nhận</th>
+                    <th>Mức phạt (đ)</th>
+                    <th>Trạng thái</th>
+                </tr>
+            </thead>
+            <tbody id="violation-table-body">
+                <!-- Populated by JS -->
+            </tbody>
+        </table>
+    </div>
+
+</main>
+
+<!-- Social Icons -->
+<div class="social-icons-contact">
+    <a href="#" class="icon-circle">💬</a>
+    <a href="#" class="icon-circle">📘</a>
+</div>
+
+<script>
+// ========== DỮ LIỆU GIẢ ==========
+const anNinhData = {
+    "2026_Tháng 4": {
+        stats: [
+            {
+                title: "Vi phạm Pháp luật",
+                number: "18",
+                numberClass: "red",
+                desc: "Trộm cắp: 7, Đánh bạc: 4, Gây thương tích: 7",
+                trend: "↑ 3 vụ so với tháng trước",
+                trendClass: "up",
+                time: "Cập nhật 20/04/2026",
+                icon: "⚠️"
+            },
+            {
+                title: "Trật tự Đô thị / Giao thông",
+                number: "47",
+                numberClass: "orange",
+                desc: "Vi phạm xây dựng, đất đai, lấn chiếm lòng lề đường",
+                trend: "↓ 5 trường hợp so với T3",
+                trendClass: "down",
+                time: "Cập nhật 20/04/2026",
+                icon: "🏙️"
+            },
+            {
+                title: "Kiểm tra Chuyên đề",
+                number: "32",
+                numberClass: "blue",
+                desc: "ATTP: 14 cơ sở | Kinh doanh: 18 cơ sở đã kiểm tra",
+                trend: "→ Đạt 80% kế hoạch tháng",
+                trendClass: "neutral",
+                time: "Cập nhật 18/04/2026",
+                icon: "🔍"
+            }
+        ],
+        violations: [
+            { loai: "Trộm cắp", diaDiem: "KV 3, Tân Vĩnh Lộc", ngay: "02/04/2026", phat: "15.000.000", status: "Đang xử lý", statusClass: "orange" },
+            { loai: "Đánh bạc", diaDiem: "KV 1, Tân Vĩnh Lộc", ngay: "04/04/2026", phat: "10.000.000", status: "Đã xử lý", statusClass: "blue" },
+            { loai: "Lấn chiếm vỉa hè", diaDiem: "Đường Tân Hòa Đông", ngay: "05/04/2026", phat: "2.000.000", status: "Đã xử lý", statusClass: "blue" },
+            { loai: "Xây dựng trái phép", diaDiem: "KV 2, Tân Vĩnh Lộc", ngay: "07/04/2026", phat: "25.000.000", status: "Đang xử lý", statusClass: "orange" },
+            { loai: "Gây thương tích", diaDiem: "KV 4, Tân Vĩnh Lộc", ngay: "09/04/2026", phat: "8.000.000", status: "Đã xử lý", statusClass: "blue" },
+            { loai: "Vi phạm ATTP", diaDiem: "Chợ Tân Vĩnh Lộc", ngay: "11/04/2026", phat: "5.000.000", status: "Đã xử lý", statusClass: "blue" },
+            { loai: "Trộm cắp", diaDiem: "KV 5, Tân Vĩnh Lộc", ngay: "13/04/2026", phat: "12.000.000", status: "Đang điều tra", statusClass: "red" },
+            { loai: "Lấn chiếm lòng đường", diaDiem: "ĐT 835", ngay: "15/04/2026", phat: "3.500.000", status: "Đã xử lý", statusClass: "blue" },
+            { loai: "Đánh bạc", diaDiem: "KV 2, Tân Vĩnh Lộc", ngay: "17/04/2026", phat: "10.000.000", status: "Đang xử lý", statusClass: "orange" },
+            { loai: "Xây dựng trái phép", diaDiem: "KV 3, Tân Vĩnh Lộc", ngay: "19/04/2026", phat: "30.000.000", status: "Đang điều tra", statusClass: "red" }
+        ]
+    }
+};
+
+// ========== VẼ GIAO DIỆN ==========
+let pieChartInstance = null;
+let barChartInstance = null;
+
+function renderPage() {
+    const data = anNinhData["2026_Tháng 4"];
+
+    // 1. Render stats
+    const grid = document.getElementById('stats-grid');
+    grid.innerHTML = data.stats.map(s => `
+        <div class="stat-card">
+            <div class="card-top">
+                <span class="card-title">${s.title}</span>
+                <span class="card-icon">${s.icon}</span>
+            </div>
+            <div class="card-number ${s.numberClass}">${s.number}</div>
+            <div class="card-desc">${s.desc}</div>
+            <div class="card-trend ${s.trendClass}">${s.trend}</div>
+            <div class="card-time">${s.time}</div>
+        </div>
+    `).join('');
+
+    // 2. Pie chart - phân loại vi phạm
+    if (pieChartInstance) pieChartInstance.destroy();
+    const ctxPie = document.getElementById('pieChart').getContext('2d');
+    pieChartInstance = new Chart(ctxPie, {
+        type: 'doughnut',
+        data: {
+            labels: ['Trộm cắp', 'Gây thương tích', 'Đánh bạc', 'Khác'],
+            datasets: [{
+                data: [7, 7, 4, 2],
+                backgroundColor: ['#E53935', '#FB8C00', '#4946ED', '#43C32F'],
+                borderWidth: 2,
+                borderColor: '#fff'
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: '60%',
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: { font: { size: 12 }, padding: 14 }
+                }
+            }
+        }
+    });
+
+    // 3. Bar chart - xử phạt chuyên đề theo tháng
+    if (barChartInstance) barChartInstance.destroy();
+    const ctxBar = document.getElementById('barChart').getContext('2d');
+    barChartInstance = new Chart(ctxBar, {
+        type: 'bar',
+        data: {
+            labels: ['T11/25', 'T12/25', 'T1/26', 'T2/26', 'T3/26', 'T4/26'],
+            datasets: [
+                {
+                    label: 'ATTP',
+                    data: [12, 9, 15, 11, 18, 14],
+                    backgroundColor: '#E53935',
+                    borderRadius: 4
+                },
+                {
+                    label: 'Xây dựng trái phép',
+                    data: [30, 45, 28, 50, 38, 55],
+                    backgroundColor: '#FB8C00',
+                    borderRadius: 4
+                },
+                {
+                    label: 'Lấn chiếm vỉa hè',
+                    data: [8, 12, 7, 14, 10, 11],
+                    backgroundColor: '#4946ED',
+                    borderRadius: 4
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                x: { stacked: false, grid: { display: false } },
+                y: { beginAtZero: true, grid: { color: '#F0F0F0' } }
+            },
+            plugins: { legend: { display: false } }
+        }
+    });
+
+    // 4. Table
+    const tbody = document.getElementById('violation-table-body');
+    tbody.innerHTML = data.violations.map((v, i) => `
+        <tr>
+            <td style="color:#999;font-weight:600">${String(i + 1).padStart(2, '0')}</td>
+            <td style="font-weight:600">${v.loai}</td>
+            <td>${v.diaDiem}</td>
+            <td>${v.ngay}</td>
+            <td style="font-weight:600">${v.phat}</td>
+            <td><span class="badge ${v.statusClass}">${v.status}</span></td>
+        </tr>
+    `).join('');
+}
+
+document.addEventListener('DOMContentLoaded', renderPage);
+</script>
+</body>
+</html>
