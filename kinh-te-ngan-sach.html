@@ -8,61 +8,88 @@
 </head>
 <body>
 <!-- Đây là thanh header, mọi người chỉnh sửa tab thông tin mọi người làm tại nav right nhe   -->
-    <header class="top-nav">
-    
-    <div class="nav-left">
-        <div class="logo-wrapper">
-            <img src="./images/Logo.svg" alt="Logo Đảng Cộng Sản" class="logo-img"> 
-        </div>
-    
+      <header class="top-nav" style="height: 80px;">
+        <div class="nav-left">
+            <div class="logo-wrapper">
+                <img src="./images/Logo.svg" alt="Logo Đảng Cộng Sản" class="logo-img"> 
+            </div>
+        </div> 
         
-    </div> <div class="nav-right">
-        <nav class="main-menu">
-            <ul class="menu-list" id="dynamic-menu">
-                <li><a href="#" class="menu-item">Tổng quan</a></li>
-                <li><a href="./kinhte_ngansach.html" class="menu-item active">Kinh tế - Ngân sách</a></li>
-                <li><a href="#" class="menu-item">Tổng quan</a></li>
-                <li><a href="#" class="menu-item">Tổng quan</a></li>
-                <li><a href="#" class="menu-item">Tổng quan</a></li>
-                <li><a href="#" class="menu-item">Tổng quan</a></li>
-            </ul>
-        </nav>
-<!-- Đây là khu vực của logo admin bao gồm những chức năng login trang admin -->
-        <div class="user-profile" id="user-profile-container">
-            <div class="avatar-frame" onclick="toggleProfileMenu()" style="cursor: pointer;">
-                <img src="./images/Admin.png" alt="User Avatar" class="user-avatar-img">
-            </div>
+        <div class="nav-right">
+            <nav class="main-menu">
+                <ul class="menu-list" id="dynamic-menu">
+                    <li><a href="index.html" class="menu-item" data-tab="tongquan">Tổng quan</a></li>
+                    <li><a href="cong-tac-dang.html" class="menu-item" data-tab="congtacdang">Công tác Đảng</a></li>
+                    <li><a href="kinh-te-ngan-sach.html" class="menu-item active" data-tab="kinhte">Kinh tế - Ngân sách</a></li>
+                    <li><a href="cchc-cds.html" class="menu-item" data-tab="cchc">CCHC & Chuyển đổi số</a></li>
+                    <li><a href="an-ninh-trat-tu.html" class="menu-item" data-tab="anninh">An ninh - Trật tự</a></li>
+                    <li><a href="an-sinh-van-hoa.html" class="menu-item" data-tab="ansinh">An sinh & Văn hóa</a></li>
+                </ul>
+            </nav>
+            
 
-            <div class="profile-dropdown" id="profile-dropdown">
-                
-                <div id="unauth-view">
-                    <h4 style="margin-bottom: 12px; color: var(--primary-blue); font-size: 15px;">Đăng nhập hệ thống</h4>
-                    <form id="dropdown-login-form" onsubmit="handleLogin(event)">
-                        <input type="text" id="drop-user" placeholder="Tên đăng nhập (admin)" required>
-                        <input type="password" id="drop-pass" placeholder="Mật khẩu (123)" required>
-                        <p id="drop-error" style="color: red; font-size: 12px; margin: 5px 0;"></p>
-                        <button type="submit" class="btn-drop-login">Đăng nhập</button>
-                    </form>
+            <!-- <div class="user-profile" id="user-profile-container">
+                <div class="avatar-frame" onclick="toggleProfileMenu()" style="cursor: pointer;">
+                    <img src="./images/Admin.png" alt="User Avatar" class="user-avatar-img">
                 </div>
 
-                <div id="auth-view" style="display: none;">
-                    <div class="user-info">
-                        <strong>Admin Đảng Ủy</strong>
-                        <p style="font-size: 12px; color: gray; margin-top: 3px;">admin@tanvinhloc.vn</p>
+                <div class="profile-dropdown" id="profile-dropdown">
+                    <div id="unauth-view">
+                        <h4 style="margin-bottom: 12px; color: var(--primary-blue); font-size: 15px;">Đăng nhập hệ thống</h4>
+                        <form id="dropdown-login-form" onsubmit="handleLogin(event)">
+                            <input type="text" id="drop-user" placeholder="Tên đăng nhập (admin)" required>
+                            <input type="password" id="drop-pass" placeholder="Mật khẩu (123)" required>
+                            <p id="drop-error" style="color: red; font-size: 12px; margin: 5px 0;"></p>
+                            <button type="submit" class="btn-drop-login">Đăng nhập</button>
+                        </form>
                     </div>
-                    <hr style="margin: 12px 0; border: 0; border-top: 1px solid #eee;">
-                    <ul class="profile-links">
-                        <li><a href="#">Quản lý thông tin cá nhân</a></li>
-                        <li><a href="#">Cài đặt hệ thống</a></li>
-                        <li><a href="#" onclick="handleLogout()" style="color: red; font-weight: bold;">Đăng xuất</a></li>
-                    </ul>
+
+                    <div id="auth-view" style="display: none;">
+                        <div class="user-info">
+                            <strong>Admin Đảng Ủy</strong>
+                            <p style="font-size: 12px; color: gray; margin-top: 3px;">admin@tanvinhloc.vn</p>
+                        </div>
+                        <hr style="margin: 12px 0; border: 0; border-top: 1px solid #eee;">
+                        <ul class="profile-links">
+                            <li><a href="#">Quản lý form nhập liệu</a></li>
+                            <li><a href="#">Cài đặt hệ thống</a></li>
+                            <li><a href="#" onclick="handleLogout()" style="color: red; font-weight: bold;">Đăng xuất</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div> -->
+              <div class="user-profile" id="user-profile-container">
+                <div class="avatar-frame" onclick="toggleProfileMenu()" style="cursor: pointer;">
+                    <img src="./images/Admin.png" alt="User Avatar" class="user-avatar-img">
                 </div>
 
+                <div class="profile-dropdown" id="profile-dropdown">
+                    <div id="unauth-view">
+                        <h4 style="margin-bottom: 12px; color: var(--primary-blue); font-size: 15px;">Đăng nhập hệ thống</h4>
+                        <form id="dropdown-login-form" onsubmit="handleLogin(event)">
+                            <input type="text" id="drop-user" placeholder="Tên đăng nhập (admin)" required>
+                            <input type="password" id="drop-pass" placeholder="Mật khẩu (123)" required>
+                            <p id="drop-error" style="color: red; font-size: 12px; margin: 5px 0;"></p>
+                            <button type="submit" class="btn-drop-login">Đăng nhập</button>
+                        </form>
+                    </div>
+
+                    <div id="auth-view" style="display: none;">
+                        <div class="user-info">
+                            <strong>Admin Đảng Ủy</strong>
+                            <p style="font-size: 12px; color: gray; margin-top: 3px;">admin@tanvinhloc.vn</p>
+                        </div>
+                        <hr style="margin: 12px 0; border: 0; border-top: 1px solid #eee;">
+                        <ul class="profile-links">
+                            <li><a href="#">Quản lý form nhập liệu</a></li>
+                            <li><a href="#">Cài đặt hệ thống</a></li>
+                            <li><a href="#" onclick="handleLogout()" style="color: red; font-weight: bold;">Đăng xuất</a></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
-        </div>
-        </div>
-    </div> </header>
+    </header>
     <!-- Đây là trang dashboard chính của chúng ta -->
 <main class="main-dashboard">
         
@@ -273,5 +300,6 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="kinhte_ngansachdata.js"></script>
 <script src="./JS/Script-kinhtengansach.js"></script>
+<script src="./JS/script.js"></script>
 </body>
 </html>
