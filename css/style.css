@@ -1,13 +1,9 @@
-@font-face {
-    font-family: 'fontchinh'; 
-    src: url('../fonts/Mainfont.ttf') format('truetype'); 
-    font-weight: normal; 
-}
+@import url('https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,1..1000&display=swap');
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'fontchinh', sans-serif; 
+    font-family: 'Google Sans Flex', sans-serif; 
 }
 
 :root {
@@ -340,3 +336,26 @@
 .profile-links a:hover {
     color: var(--primary-blue);
 }
+/* ====== VIOLATIONS TABLE (cua trang an ninh trat tu)====== */
+        .table-card {
+            background: var(--bg-white);
+            border-radius: 12px;
+            padding: 22px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-top: 18px;
+        }
+        .table-card h3 { font-size: 16px; font-weight: 700; color: #222; margin-bottom: 4px; }
+        .table-card p.sub { font-size: 13px; color: #888; margin-bottom: 14px; }
+        table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        thead tr { background: #F5F6FF; }
+        thead th { padding: 10px 14px; text-align: left; font-weight: 700; color: var(--primary-blue); border-bottom: 2px solid #E8E8FF; }
+        tbody tr { border-bottom: 1px solid #F0F0F0; transition: background 0.15s; }
+        tbody tr:hover { background: #FAFBFF; }
+        tbody td { padding: 10px 14px; color: #444; }
+        .badge {
+            display: inline-block; padding: 3px 10px;
+            border-radius: 20px; font-size: 11px; font-weight: 700;
+        }
+        .badge.red { background: #FFEBEE; color: var(--danger-red); }
+        .badge.orange { background: #FFF3E0; color: var(--warning-orange); }
+        .badge.blue { background: #EEF0FF; color: var(--primary-blue); }
