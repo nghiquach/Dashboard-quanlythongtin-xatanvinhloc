@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>An ninh - Trật tự | Đảng Ủy Xã Tân Vĩnh Lộc</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Dashboard - Công tác Đảng - Đảng Ủy Xã Tân Vĩnh Lộc</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
@@ -97,37 +98,62 @@
             </a>
         </div>
 
+        <div class="row g-2 mb-2 flex-shrink-0" id="dang-stats-grid">
+            
+            <div class="col-12 col-sm-6 col-lg-4 col-xl">
+                <div class="stat-card h-100 d-flex flex-column">
+                    <div class="card-top d-flex justify-content-between mb-1">
+                        <span class="card-title fw-bold" style="font-size: 17px;">Vi phạm pháp luật</span>
+                        <span class="card-icon">👨‍⚖️</span> 
+                    </div>
+                    <div class="card-number fw-bold text-primary mb-0" style="font-size: 32px;" id="val-tongdangvien">18</div>
+                    <div class="card-desc text-muted flex-grow-1" style="font-size: 15px;">Trộm cắp: 7, Đánh bạc: 4, Gây thương tích: 7</div>
+                    <div class="card-trend fw-bold mt-1" style="color: var(--success-green); font-size: 14px;">↑ 3 vụ so với tháng trước</div>
+                </div>
+            </div>
 
-    <!-- STAT CARDS: 3 thẻ chính (Vi phạm, Trật tự ĐT, Kiểm tra chuyên đề) -->
-    <div class="stats-grid" id="stats-grid">
-        <!-- Populated by JS -->
-    </div>
+            <div class="col-12 col-sm-6 col-lg-4 col-xl">
+                <div class="stat-card h-100 d-flex flex-column">
+                    <div class="card-top d-flex justify-content-between mb-1">
+                        <span class="card-title fw-bold" style="font-size: 17px;">Trật tự Đô thị / Giao thông</span>
+                        <span class="card-icon">👮‍♂️</span>
+                    </div>
+                    <div class="card-number fw-bold text-primary mb-0" style="font-size: 32px;" id="val-tochucdang">47</div>
+                    <div class="card-desc text-muted flex-grow-1" style="font-size: 15px;">Vi phạm xây dựng, đất đai, lấn chiếm lòng lề đường</div>
+                    <div class="card-trend fw-bold mt-1" style="color: var(--success-green); font-size: 14px;">↓ 5 trường hợp so với T3</div>
+                </div>
+            </div>
 
-    <!-- CHARTS ROW -->
-    <div class="charts-row">
-        <!-- Biểu đồ tròn phân loại vi phạm -->
-        <div class="chart-card flex-1">
-            <h3>Phân loại Vi phạm Pháp luật</h3>
-            <p class="sub">Tháng 4/2026 - Phân theo hành vi</p>
-            <div class="chart-wrap">
-                <canvas id="pieChart"></canvas>
+            <div class="col-12 col-sm-6 col-lg-4 col-xl">
+                <div class="stat-card h-100 d-flex flex-column">
+                    <div class="card-top d-flex justify-content-between mb-1">
+                        <span class="card-title fw-bold" style="font-size: 17px;">Kết nạp Đảng mới</span>
+                        <span class="card-icon">⭐</span>
+                    </div>
+                    <div class="card-number fw-bold text-primary mb-0" style="font-size: 32px;" id="val-ketnap">12 / 30</div>
+                    <div class="card-desc text-muted flex-grow-1" style="font-size: 15px;">Đã kết nạp / Chỉ tiêu năm</div>
+                    <div class="card-trend fw-bold mt-1" style="color: var(--primary-blue); font-size: 14px;">Đạt 40% kế hoạch</div>
+                </div>
+            </div>
+  <div class="charts-container" style="display: flex; gap: 20px; margin-top: 20px;">
+    
+        <div class="stat-card" style="flex: 1; min-width: 0; min-height: 0;">
+            <h3 style="font-size: 16px;">Tiến độ thu/chi ngân sách</h3>
+            <p style="color: gray; font-size: 13px; margin-bottom: 15px;">Theo kế hoạch năm</p>
+            
+            <div style="position: relative; height: 220px; width: 100%; display: flex; justify-content: center; overflow: hidden;">
+                <canvas id="gaugeChart"></canvas>
             </div>
         </div>
-
-        <!-- Biểu đồ cột xử phạt chuyên đề -->
-        <div class="chart-card flex-2">
-            <h3>Thống kê Xử phạt Chuyên đề theo Tháng</h3>
-            <p class="sub">6 tháng gần nhất - Theo loại vi phạm (triệu đồng)</p>
-            <div class="legend-list">
-                <div class="legend-item"><div class="legend-dot" style="background:#E53935"></div>ATTP</div>
-                <div class="legend-item"><div class="legend-dot" style="background:#FB8C00"></div>Xây dựng trái phép</div>
-                <div class="legend-item"><div class="legend-dot" style="background:#4946ED"></div>Lấn chiếm vỉa hè</div>
-            </div>
-            <div class="chart-wrap">
-                <canvas id="barChart"></canvas>
+    
+        <div class="stat-card" style="flex: 1; min-width: 0; min-height: 0;">
+            <h3 style="font-size: 16px;">Tổng vốn đăng ký mới</h3>
+            <p style="color: gray; font-size: 13px; margin-bottom: 15px;">Phân theo loại hình kinh tế</p>
+            
+            <div style="position: relative; height: 220px; width: 100%; overflow: hidden;">
+                <canvas id="stackedBarChart"></canvas>
             </div>
         </div>
-    </div>
 
     <!-- VIOLATION TABLE -->
     <div class="table-card">
