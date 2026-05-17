@@ -3,13 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>An ninh - Trật tự | Đảng Ủy Xã Tân Vĩnh Lộc</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Dashboard - An ninh Trật tự - Đảng Ủy Xã Tân Vĩnh Lộc</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="./css/style.css">
+    
+    <style>
+        /* CSS XỬ LÝ MENU RESPONSIVE */
+        @media (max-width: 991px) {
+            .top-nav { height: auto !important; padding: 15px !important; flex-wrap: wrap; }
+            .nav-right { width: 100%; margin-left: 0 !important; margin-top: 15px; }
+            .menu-list { flex-direction: column; width: 100%; gap: 5px !important; }
+            .menu-item { display: block; padding: 10px 0; border-bottom: 1px solid #f0f0f0; font-size: 18px !important; }
+            .user-profile { margin-top: 20px; margin-left: 0; }
+        }
+
+        /* TỐI ƯU GIAO DIỆN VỪA IN MÀN HÌNH (NO SCROLL) CHO PC */
+        @media (min-width: 992px) {
+            body { overflow: hidden; /* Cấm cuộn trang trên máy tính */ }
+            .main-dashboard { height: calc(100vh - 80px); overflow: hidden; }
+        }
+
+        .stat-card { padding: 15px !important; }
+        .card-icon { font-size: 24px; }
+        .chart-title { font-size: 18px; font-weight: bold; margin-bottom: 2px; }
+        .chart-sub { font-size: 13px; color: gray; margin-bottom: 10px; }
+        
+        /* Tối ưu cuộn cho bảng nếu dữ liệu dài */
+        .table-wrapper { max-height: 100%; overflow-y: auto; }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
-<!-- HEADER -->
     <header class="top-nav" style="height: 80px;">
         <div class="nav-left">
             <div class="logo-wrapper">
@@ -21,10 +48,10 @@
             <nav class="main-menu">
                 <ul class="menu-list" id="dynamic-menu">
                     <li><a href="index.html" class="menu-item" data-tab="tongquan">Tổng quan</a></li>
-                    <li><a href="cong-tac-dang.html" class="menu-item active" data-tab="congtacdang">Công tác Đảng</a></li>
+                    <li><a href="cong-tac-dang.html" class="menu-item" data-tab="congtacdang">Công tác Đảng</a></li>
                     <li><a href="kinh-te-ngan-sach.html" class="menu-item" data-tab="kinhte">Kinh tế - Ngân sách</a></li>
                     <li><a href="cchc-cds.html" class="menu-item" data-tab="cchc">CCHC & Chuyển đổi số</a></li>
-                    <li><a href="an-ninh-trat-tu.html" class="menu-item" data-tab="anninh">An ninh - Trật tự</a></li>
+                    <li><a href="an-ninh-trat-tu.html" class="menu-item active" data-tab="anninh">An ninh - Trật tự</a></li>
                     <li><a href="an-sinh-van-hoa.html" class="menu-item" data-tab="ansinh">An sinh & Văn hóa</a></li>
                 </ul>
             </nav>
@@ -33,7 +60,6 @@
                 <div class="avatar-frame" onclick="toggleProfileMenu()" style="cursor: pointer;">
                     <img src="./images/Admin.png" alt="User Avatar" class="user-avatar-img">
                 </div>
-
                 <div class="profile-dropdown" id="profile-dropdown">
                     <div id="unauth-view">
                         <h4 style="margin-bottom: 12px; color: var(--primary-blue); font-size: 15px;">Đăng nhập hệ thống</h4>
@@ -61,12 +87,12 @@
             </div>
         </div>
     </header>
-<!-- MAIN CONTENT -->
+
     <main class="main-dashboard container-fluid px-4 py-3 d-flex flex-column">
         
         <div class="dashboard-header d-flex flex-wrap justify-content-between align-items-center mb-2 flex-shrink-0 gap-2">
             <div class="title-box">
-                <h1 id="header-title" class="mb-1 fs-4 fw-bold text-white">CÔNG TÁC ĐẢNG</h1>
+                <h1 id="header-title" class="mb-1 fs-4 fw-bold text-white">AN NINH - TRẬT TỰ</h1>
                 <div class="d-flex align-items-center gap-3">
                     <p id="header-time" class="mb-0" style="font-size: 15px; color: rgba(255,255,255,0.8);">Cập nhật lúc: Hệ thống tự động cập nhật</p>
                     <div id="officer-info" class="d-inline-flex align-items-center px-2 py-1 rounded text-white" style="background: rgba(255,255,255,0.2); font-size: 15px; gap: 15px;">
@@ -97,66 +123,67 @@
             </a>
         </div>
 
+        <div class="row g-2 mb-2 flex-shrink-0" id="stats-grid">
+            </div>
 
-    <!-- STAT CARDS: 3 thẻ chính (Vi phạm, Trật tự ĐT, Kiểm tra chuyên đề) -->
-    <div class="stats-grid" id="stats-grid">
-        <!-- Populated by JS -->
-    </div>
+        <div class="row g-2 flex-grow-1" style="min-height: 0;">
+            <div class="col-12 col-lg-4 h-100">
+                <div class="stat-card shadow-sm rounded-3 h-100 d-flex flex-column">
+                    <h3 class="chart-title text-dark flex-shrink-0">Phân loại Vi phạm Pháp luật</h3>
+                    <p class="chart-sub flex-shrink-0">Tháng 4/2026 - Phân theo hành vi</p>
+                    <div class="flex-grow-1 position-relative" style="min-height: 0; width: 100%;">
+                        <canvas id="pieChart"></canvas>
+                    </div>
+                </div>
+            </div>
 
-    <!-- CHARTS ROW -->
-    <div class="charts-row">
-        <!-- Biểu đồ tròn phân loại vi phạm -->
-        <div class="chart-card flex-1">
-            <h3>Phân loại Vi phạm Pháp luật</h3>
-            <p class="sub">Tháng 4/2026 - Phân theo hành vi</p>
-            <div class="chart-wrap">
-                <canvas id="pieChart"></canvas>
+            <div class="col-12 col-lg-8 h-100">
+                <div class="stat-card shadow-sm rounded-3 h-100 d-flex flex-column">
+                    <div class="d-flex justify-content-between align-items-center flex-shrink-0">
+                        <div>
+                            <h3 class="chart-title text-dark">Thống kê Xử phạt Chuyên đề</h3>
+                            <p class="chart-sub">6 tháng gần nhất - Theo loại vi phạm (triệu đồng)</p>
+                        </div>
+                        <div class="legend-list d-flex gap-3" style="font-size: 12px;">
+                            <div class="legend-item"><div class="legend-dot d-inline-block rounded-circle me-1" style="width:10px;height:10px;background:#E53935"></div>ATTP</div>
+                            <div class="legend-item"><div class="legend-dot d-inline-block rounded-circle me-1" style="width:10px;height:10px;background:#FB8C00"></div>Xây dựng trái phép</div>
+                            <div class="legend-item"><div class="legend-dot d-inline-block rounded-circle me-1" style="width:10px;height:10px;background:#4946ED"></div>Lấn chiếm vỉa hè</div>
+                        </div>
+                    </div>
+                    <div class="flex-grow-1 position-relative" style="min-height: 0; width: 100%;">
+                        <canvas id="barChart"></canvas>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- Biểu đồ cột xử phạt chuyên đề -->
-        <div class="chart-card flex-2">
-            <h3>Thống kê Xử phạt Chuyên đề theo Tháng</h3>
-            <p class="sub">6 tháng gần nhất - Theo loại vi phạm (triệu đồng)</p>
-            <div class="legend-list">
-                <div class="legend-item"><div class="legend-dot" style="background:#E53935"></div>ATTP</div>
-                <div class="legend-item"><div class="legend-dot" style="background:#FB8C00"></div>Xây dựng trái phép</div>
-                <div class="legend-item"><div class="legend-dot" style="background:#4946ED"></div>Lấn chiếm vỉa hè</div>
-            </div>
-            <div class="chart-wrap">
-                <canvas id="barChart"></canvas>
+        <div class="row g-2 mt-2 flex-shrink-0 mb-1" style="max-height: 35vh;">
+            <div class="col-12 h-100">
+                <div class="stat-card shadow-sm rounded-3 h-100 d-flex flex-column">
+                    <h3 class="chart-title text-dark flex-shrink-0">Chi tiết Vi phạm gần đây</h3>
+                    <p class="chart-sub flex-shrink-0">10 vụ việc mới nhất trong tháng</p>
+                    <div class="table-wrapper flex-grow-1">
+                        <table class="table table-hover table-sm mb-0">
+                            <thead class="table-light sticky-top">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Loại vi phạm</th>
+                                    <th>Địa điểm</th>
+                                    <th>Ngày ghi nhận</th>
+                                    <th>Mức phạt (đ)</th>
+                                    <th>Trạng thái</th>
+                                </tr>
+                            </thead>
+                            <tbody id="violation-table-body">
+                                </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
+    </main>
 
-    <!-- VIOLATION TABLE -->
-    <div class="table-card">
-        <h3>Chi tiết Vi phạm gần đây</h3>
-        <p class="sub">10 vụ việc mới nhất trong tháng</p>
-        <table>
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Loại vi phạm</th>
-                    <th>Địa điểm</th>
-                    <th>Ngày ghi nhận</th>
-                    <th>Mức phạt (đ)</th>
-                    <th>Trạng thái</th>
-                </tr>
-            </thead>
-            <tbody id="violation-table-body">
-                <!-- Populated by JS -->
-            </tbody>
-        </table>
-    </div>
-
-</main>
-
-<!-- Social Icons -->
-<div class="social-icons-contact">
-    <a href="#" class="icon-circle">💬</a>
-    <a href="#" class="icon-circle">📘</a>
-</div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
 // ========== DỮ LIỆU GIẢ ==========
@@ -166,45 +193,45 @@ const anNinhData = {
             {
                 title: "Vi phạm Pháp luật",
                 number: "18",
-                numberClass: "red",
+                numberClass: "text-danger",
                 desc: "Trộm cắp: 7, Đánh bạc: 4, Gây thương tích: 7",
                 trend: "↑ 3 vụ so với tháng trước",
-                trendClass: "up",
+                trendClass: "text-danger",
                 time: "Cập nhật 20/04/2026",
                 icon: "⚠️"
             },
             {
                 title: "Trật tự Đô thị / Giao thông",
                 number: "47",
-                numberClass: "orange",
+                numberClass: "text-warning",
                 desc: "Vi phạm xây dựng, đất đai, lấn chiếm lòng lề đường",
                 trend: "↓ 5 trường hợp so với T3",
-                trendClass: "down",
+                trendClass: "text-success",
                 time: "Cập nhật 20/04/2026",
                 icon: "🏙️"
             },
             {
                 title: "Kiểm tra Chuyên đề",
                 number: "32",
-                numberClass: "blue",
+                numberClass: "text-primary",
                 desc: "ATTP: 14 cơ sở | Kinh doanh: 18 cơ sở đã kiểm tra",
                 trend: "→ Đạt 80% kế hoạch tháng",
-                trendClass: "neutral",
+                trendClass: "text-secondary",
                 time: "Cập nhật 18/04/2026",
                 icon: "🔍"
             }
         ],
         violations: [
-            { loai: "Trộm cắp", diaDiem: "KV 3, Tân Vĩnh Lộc", ngay: "02/04/2026", phat: "15.000.000", status: "Đang xử lý", statusClass: "orange" },
-            { loai: "Đánh bạc", diaDiem: "KV 1, Tân Vĩnh Lộc", ngay: "04/04/2026", phat: "10.000.000", status: "Đã xử lý", statusClass: "blue" },
-            { loai: "Lấn chiếm vỉa hè", diaDiem: "Đường Tân Hòa Đông", ngay: "05/04/2026", phat: "2.000.000", status: "Đã xử lý", statusClass: "blue" },
-            { loai: "Xây dựng trái phép", diaDiem: "KV 2, Tân Vĩnh Lộc", ngay: "07/04/2026", phat: "25.000.000", status: "Đang xử lý", statusClass: "orange" },
-            { loai: "Gây thương tích", diaDiem: "KV 4, Tân Vĩnh Lộc", ngay: "09/04/2026", phat: "8.000.000", status: "Đã xử lý", statusClass: "blue" },
-            { loai: "Vi phạm ATTP", diaDiem: "Chợ Tân Vĩnh Lộc", ngay: "11/04/2026", phat: "5.000.000", status: "Đã xử lý", statusClass: "blue" },
-            { loai: "Trộm cắp", diaDiem: "KV 5, Tân Vĩnh Lộc", ngay: "13/04/2026", phat: "12.000.000", status: "Đang điều tra", statusClass: "red" },
-            { loai: "Lấn chiếm lòng đường", diaDiem: "ĐT 835", ngay: "15/04/2026", phat: "3.500.000", status: "Đã xử lý", statusClass: "blue" },
-            { loai: "Đánh bạc", diaDiem: "KV 2, Tân Vĩnh Lộc", ngay: "17/04/2026", phat: "10.000.000", status: "Đang xử lý", statusClass: "orange" },
-            { loai: "Xây dựng trái phép", diaDiem: "KV 3, Tân Vĩnh Lộc", ngay: "19/04/2026", phat: "30.000.000", status: "Đang điều tra", statusClass: "red" }
+            { loai: "Trộm cắp", diaDiem: "KV 3, Tân Vĩnh Lộc", ngay: "02/04/2026", phat: "15.000.000", status: "Đang xử lý", statusClass: "bg-warning text-dark" },
+            { loai: "Đánh bạc", diaDiem: "KV 1, Tân Vĩnh Lộc", ngay: "04/04/2026", phat: "10.000.000", status: "Đã xử lý", statusClass: "bg-primary" },
+            { loai: "Lấn chiếm vỉa hè", diaDiem: "Đường Tân Hòa Đông", ngay: "05/04/2026", phat: "2.000.000", status: "Đã xử lý", statusClass: "bg-primary" },
+            { loai: "Xây dựng trái phép", diaDiem: "KV 2, Tân Vĩnh Lộc", ngay: "07/04/2026", phat: "25.000.000", status: "Đang xử lý", statusClass: "bg-warning text-dark" },
+            { loai: "Gây thương tích", diaDiem: "KV 4, Tân Vĩnh Lộc", ngay: "09/04/2026", phat: "8.000.000", status: "Đã xử lý", statusClass: "bg-primary" },
+            { loai: "Vi phạm ATTP", diaDiem: "Chợ Tân Vĩnh Lộc", ngay: "11/04/2026", phat: "5.000.000", status: "Đã xử lý", statusClass: "bg-primary" },
+            { loai: "Trộm cắp", diaDiem: "KV 5, Tân Vĩnh Lộc", ngay: "13/04/2026", phat: "12.000.000", status: "Đang điều tra", statusClass: "bg-danger" },
+            { loai: "Lấn chiếm lòng đường", diaDiem: "ĐT 835", ngay: "15/04/2026", phat: "3.500.000", status: "Đã xử lý", statusClass: "bg-primary" },
+            { loai: "Đánh bạc", diaDiem: "KV 2, Tân Vĩnh Lộc", ngay: "17/04/2026", phat: "10.000.000", status: "Đang xử lý", statusClass: "bg-warning text-dark" },
+            { loai: "Xây dựng trái phép", diaDiem: "KV 3, Tân Vĩnh Lộc", ngay: "19/04/2026", phat: "30.000.000", status: "Đang điều tra", statusClass: "bg-danger" }
         ]
     }
 };
@@ -216,18 +243,20 @@ let barChartInstance = null;
 function renderPage() {
     const data = anNinhData["2026_Tháng 4"];
 
-    // 1. Render stats
+    // 1. Render stats (Cập nhật dùng Bootstrap Column)
     const grid = document.getElementById('stats-grid');
     grid.innerHTML = data.stats.map(s => `
-        <div class="stat-card">
-            <div class="card-top">
-                <span class="card-title">${s.title}</span>
-                <span class="card-icon">${s.icon}</span>
+        <div class="col-12 col-md-4">
+            <div class="stat-card h-100 d-flex flex-column shadow-sm rounded-3">
+                <div class="card-top d-flex justify-content-between mb-1">
+                    <span class="card-title fw-bold" style="font-size: 17px;">${s.title}</span>
+                    <span class="card-icon">${s.icon}</span>
+                </div>
+                <div class="card-number fw-bold mb-0 ${s.numberClass}" style="font-size: 32px;">${s.number}</div>
+                <div class="card-desc text-muted flex-grow-1" style="font-size: 15px;">${s.desc}</div>
+                <div class="card-trend fw-bold mt-1 ${s.trendClass}" style="font-size: 14px;">${s.trend}</div>
+                <div class="card-time text-secondary" style="font-size: 12px;">${s.time}</div>
             </div>
-            <div class="card-number ${s.numberClass}">${s.number}</div>
-            <div class="card-desc">${s.desc}</div>
-            <div class="card-trend ${s.trendClass}">${s.trend}</div>
-            <div class="card-time">${s.time}</div>
         </div>
     `).join('');
 
@@ -297,7 +326,7 @@ function renderPage() {
         }
     });
 
-    // 4. Table
+    // 4. Table (Cập nhật HTML theo chuẩn Bootstrap)
     const tbody = document.getElementById('violation-table-body');
     tbody.innerHTML = data.violations.map((v, i) => `
         <tr>
