@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>An sinh & Văn hóa - Tân Vĩnh Lộc</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+        body { 
+            background-color: #637ef1; 
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 24px;
+        }
+        /* Style cho các ô trắng (Cards) */
+        .glass-card { 
+            background: white; 
+            border-radius: 2.5rem; 
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s;
+        }
+        .glass-card:hover { transform: translateY(-5px); }
+        
+        /* Container khống chế biểu đồ không bị tràn */
+        .chart-container {
+            position: relative;
+            flex-grow: 1;
+            width: 100%;
+            height: 200px; 
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="bg-white rounded-3xl p-4 mb-10 flex justify-between items-center shadow-xl max-w-7xl mx-auto">
+        <div class="flex items-center space-x-4">
+            <img src="images/Logo.svg" alt="Logo Xã" class="h-14 w-auto">
+            
+            <div class="border-l-2 border-gray-100 pl-4">
+                <h1 class="font-black text-gray-800 leading-tight uppercase text-sm">Đảng ủy xã</h1>
+                <p class="font-black text-gray-800 uppercase text-sm">Tân Vĩnh Lộc</p>
+            </div>
+
+            <div class="flex flex-col space-y-1 ml-2">
+                <img src="images/simple-icons_zalo.png" alt="Zalo" class="h-6 w-6 object-contain">
+                <img src="images/Vector.png" alt="Facebook" class="h-6 w-6 object-contain">
+            </div>
+        </div>
+
+        <nav class="hidden lg:flex space-x-6 text-[11px] font-black text-gray-400 uppercase tracking-tighter">
+            <a href="#" class="hover:text-blue-600">Tổng quan</a>
+            <a href="#" class="text-blue-600 border-b-2 border-blue-600 pb-1">An sinh & Văn hóa</a>
+            <a href="#" class="hover:text-blue-600">Kinh tế</a>
+            <a href="#" class="hover:text-blue-600">Công tác Đảng</a>
+        </nav>
+
+        <img src="images/Admin.png" alt="Admin" class="h-12 w-12 rounded-full border-2 border-blue-50 object-cover">
+    </header>
+
+    <main class="max-w-7xl mx-auto">
+        <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
+            <div>
+                <h2 class="text-white text-5xl font-black uppercase italic tracking-tighter leading-none">An sinh & Văn hóa</h2>
+                <p class="text-white/90 text-sm mt-3 font-medium">Hệ thống Dashboard hợp nhất số liệu địa phương</p>
+            </div>
+            
+            <div class="flex space-x-2">
+                <div class="bg-white/30 text-white px-5 py-2 rounded-xl font-bold text-sm backdrop-blur-md border border-white/20 shadow-inner cursor-pointer">NĂM 2026</div>
+                <div class="bg-white/30 text-white px-5 py-2 rounded-xl font-bold text-sm backdrop-blur-md border border-white/20 shadow-inner cursor-pointer">THÁNG 05</div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div class="grid grid-cols-2 gap-6">
+                <div class="glass-card p-8">
+                    <p class="text-gray-400 text-[10px] font-black uppercase tracking-widest mb-4">Ngân sách lễ Tết</p>
+                    <h3 class="text-4xl font-black text-blue-700 mb-2">1,420 TR</h3>
+                    <p class="text-[10px] text-gray-400 font-bold mb-4">Tăng 13.6% so với đầu năm</p>
+                    <p class="text-green-500 font-black text-xl flex items-center">↑ 170 triệu</p>
+                </div>
+
+                <div class="glass-card p-8">
+                    <p class="text-gray-400 text-[10px] font-black uppercase tracking-widest mb-4">Hộ thoát nghèo</p>
+                    <h3 class="text-4xl font-black text-blue-700 mb-2">45</h3>
+                    <p class="text-[10px] text-gray-400 font-bold mb-4">Tăng 13.6% so với đầu năm</p>
+                    <p class="text-green-500 font-black text-xl flex items-center">↑ 12 hộ</p>
+                </div>
+
+                <div class="glass-card p-8">
+                    <p class="text-gray-400 text-[10px] font-black uppercase tracking-widest mb-4">Sự kiện văn hóa</p>
+                    <h3 class="text-4xl font-black text-blue-700 mb-2">1,420</h3>
+                    <p class="text-[10px] text-gray-400 font-bold mb-4">Tăng 13.6% so với đầu năm</p>
+                    <p class="text-green-500 font-black text-xl flex items-center">↑ 170 sự kiện</p>
+                </div>
+
+                <div class="glass-card p-8">
+                    <p class="text-gray-400 text-[10px] font-black uppercase tracking-widest mb-4">Quỹ an sinh</p>
+                    <h3 class="text-4xl font-black text-blue-700 mb-2">1,420 TR</h3>
+                    <p class="text-[10px] text-gray-400 font-bold mb-4">Tăng 13.6% so với đầu năm</p>
+                    <p class="text-green-500 font-black text-xl flex items-center">↑ 170 triệu</p>
+                </div>
+            </div>
+
+            <div class="space-y-6">
+                <div class="glass-card p-6 min-h-[280px]">
+                    <h4 class="font-black text-gray-700 text-xs uppercase mb-4 px-2">Tiến độ giảm nghèo theo đơn vị</h4>
+                    <div class="chart-container">
+                        <canvas id="povertyChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="glass-card p-6 min-h-[280px]">
+                    <h4 class="font-black text-gray-700 text-xs uppercase mb-4 px-2">Quy mô sự kiện văn hóa</h4>
+                    <div class="chart-container">
+                        <canvas id="eventChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Cấu hình biểu đồ chung
+        const commonOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                x: { grid: { display: false }, ticks: { font: { weight: 'bold', size: 10 } } },
+                y: { 
+                    beginAtZero: true, 
+                    grid: { color: '#f8fafc' }, 
+                    ticks: { font: { weight: 'bold', size: 10 } } 
+                }
+            }
+        };
+
+        // Biểu đồ Thanh ngang
+        new Chart(document.getElementById('povertyChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Ấp 1', 'Ấp 2', 'Ấp 3', 'Ấp 4'],
+                datasets: [{
+                    data: [15, 25, 18, 30],
+                    backgroundColor: '#4ade80',
+                    borderRadius: 10,
+                    barThickness: 15
+                }]
+            },
+            options: { ...commonOptions, indexAxis: 'y' }
+        });
+
+        // Biểu đồ Cột
+        new Chart(document.getElementById('eventChart'), {
+            type: 'bar',
+            data: {
+                labels: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6'],
+                datasets: [{
+                    data: [400, 800, 600, 1100, 900, 1300],
+                    backgroundColor: '#6366f1',
+                    borderRadius: 10,
+                    barThickness: 30
+                }]
+            },
+            options: commonOptions
+        });
+    </script>
+</body>
+</html>

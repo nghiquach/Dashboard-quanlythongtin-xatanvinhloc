@@ -3,173 +3,252 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>An sinh & Văn hóa - Tân Vĩnh Lộc</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Dashboard - An sinh & Văn hóa - Đảng Ủy Xã Tân Vĩnh Lộc</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./css/style.css">
+    
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
-        body { 
-            background-color: #637ef1; 
-            font-family: 'Inter', sans-serif;
-            margin: 0;
-            padding: 24px;
+        /* CSS XỬ LÝ MENU RESPONSIVE */
+        @media (max-width: 991px) {
+            .top-nav { height: auto !important; padding: 15px !important; flex-wrap: wrap; }
+            .nav-right { width: 100%; margin-left: 0 !important; margin-top: 15px; }
+            .menu-list { flex-direction: column; width: 100%; gap: 5px !important; }
+            .menu-item { display: block; padding: 10px 0; border-bottom: 1px solid #f0f0f0; font-size: 18px !important; }
+            .user-profile { margin-top: 20px; margin-left: 0; }
         }
-        /* Style cho các ô trắng (Cards) */
-        .glass-card { 
-            background: white; 
-            border-radius: 2.5rem; 
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            transition: transform 0.2s;
+
+        /* TỐI ƯU GIAO DIỆN VỪA IN MÀN HÌNH (NO SCROLL) CHO PC */
+        @media (min-width: 992px) {
+            body { overflow: hidden; }
+            .main-dashboard { height: calc(100vh - 80px); overflow: hidden; }
         }
-        .glass-card:hover { transform: translateY(-5px); }
-        
-        /* Container khống chế biểu đồ không bị tràn */
-        .chart-container {
-            position: relative;
-            flex-grow: 1;
-            width: 100%;
-            height: 200px; 
-            padding: 10px;
-        }
+
+        .stat-card { padding: 15px !important; }
+        .card-icon { font-size: 24px; }
+        .chart-title { font-size: 18px; font-weight: bold; margin-bottom: 2px; }
+        .chart-sub { font-size: 13px; color: gray; margin-bottom: 10px; }
     </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
-    <header class="bg-white rounded-3xl p-4 mb-10 flex justify-between items-center shadow-xl max-w-7xl mx-auto">
-        <div class="flex items-center space-x-4">
-            <img src="images/Logo.svg" alt="Logo Xã" class="h-14 w-auto">
-            
-            <div class="border-l-2 border-gray-100 pl-4">
-                <h1 class="font-black text-gray-800 leading-tight uppercase text-sm">Đảng ủy xã</h1>
-                <p class="font-black text-gray-800 uppercase text-sm">Tân Vĩnh Lộc</p>
+    <header class="top-nav" style="height: 80px;">
+        <div class="nav-left">
+            <div class="logo-wrapper">
+                <img src="./images/Logo.svg" alt="Logo Đảng Cộng Sản" class="logo-img"> 
             </div>
+        </div> 
+        
+        <div class="nav-right">
+            <nav class="main-menu">
+                <ul class="menu-list" id="dynamic-menu">
+                    <li><a href="index.html" class="menu-item" data-tab="tongquan">Tổng quan</a></li>
+                    <li><a href="cong-tac-dang.html" class="menu-item" data-tab="congtacdang">Công tác Đảng</a></li>
+                    <li><a href="kinh-te-ngan-sach.html" class="menu-item" data-tab="kinhte">Kinh tế - Ngân sách</a></li>
+                    <li><a href="cchc-cds.html" class="menu-item" data-tab="cchc">CCHC & Chuyển đổi số</a></li>
+                    <li><a href="an-ninh-trat-tu.html" class="menu-item" data-tab="anninh">An ninh - Trật tự</a></li>
+                    <li><a href="an-sinh-van-hoa.html" class="menu-item active" data-tab="ansinh">An sinh & Văn hóa</a></li>
+                </ul>
+            </nav>
 
-            <div class="flex flex-col space-y-1 ml-2">
-                <img src="images/simple-icons_zalo.png" alt="Zalo" class="h-6 w-6 object-contain">
-                <img src="images/Vector.png" alt="Facebook" class="h-6 w-6 object-contain">
+            <div class="user-profile" id="user-profile-container">
+                <div class="avatar-frame" onclick="toggleProfileMenu()" style="cursor: pointer;">
+                    <img src="./images/Admin.png" alt="User Avatar" class="user-avatar-img">
+                </div>
+
+                <div class="profile-dropdown" id="profile-dropdown">
+                    <div id="unauth-view">
+                        <h4 style="margin-bottom: 12px; color: var(--primary-blue); font-size: 15px;">Đăng nhập hệ thống</h4>
+                        <form id="dropdown-login-form" onsubmit="handleLogin(event)">
+                            <input type="text" id="drop-user" placeholder="Tên đăng nhập (admin)" required>
+                            <input type="password" id="drop-pass" placeholder="Mật khẩu (123)" required>
+                            <p id="drop-error" style="color: red; font-size: 12px; margin: 5px 0;"></p>
+                            <button type="submit" class="btn-drop-login">Đăng nhập</button>
+                        </form>
+                    </div>
+
+                    <div id="auth-view" style="display: none;">
+                        <div class="user-info">
+                            <strong>Admin Đảng Ủy</strong>
+                            <p style="font-size: 12px; color: gray; margin-top: 3px;">admin@tanvinhloc.vn</p>
+                        </div>
+                        <hr style="margin: 12px 0; border: 0; border-top: 1px solid #eee;">
+                        <ul class="profile-links">
+                            <li><a href="#">Quản lý form nhập liệu</a></li>
+                            <li><a href="#">Cài đặt hệ thống</a></li>
+                            <li><a href="#" onclick="handleLogout()" style="color: red; font-weight: bold;">Đăng xuất</a></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
-
-        <nav class="hidden lg:flex space-x-6 text-[11px] font-black text-gray-400 uppercase tracking-tighter">
-            <a href="#" class="hover:text-blue-600">Tổng quan</a>
-            <a href="#" class="text-blue-600 border-b-2 border-blue-600 pb-1">An sinh & Văn hóa</a>
-            <a href="#" class="hover:text-blue-600">Kinh tế</a>
-            <a href="#" class="hover:text-blue-600">Công tác Đảng</a>
-        </nav>
-
-        <img src="images/Admin.png" alt="Admin" class="h-12 w-12 rounded-full border-2 border-blue-50 object-cover">
     </header>
 
-    <main class="max-w-7xl mx-auto">
-        <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
-            <div>
-                <h2 class="text-white text-5xl font-black uppercase italic tracking-tighter leading-none">An sinh & Văn hóa</h2>
-                <p class="text-white/90 text-sm mt-3 font-medium">Hệ thống Dashboard hợp nhất số liệu địa phương</p>
+    <main class="main-dashboard container-fluid px-4 py-3 d-flex flex-column">
+        
+        <div class="dashboard-header d-flex flex-wrap justify-content-between align-items-center mb-2 flex-shrink-0 gap-2">
+            <div class="title-box">
+                <h1 id="header-title" class="mb-1 fs-4 fw-bold text-white">AN SINH & VĂN HÓA</h1>
+                <div class="d-flex align-items-center gap-3">
+                    <p id="header-time" class="mb-0" style="font-size: 15px; color: rgba(255,255,255,0.8);">Cập nhật lúc: Hệ thống tự động cập nhật</p>
+                    <div id="officer-info" class="d-inline-flex align-items-center px-2 py-1 rounded text-white" style="background: rgba(255,255,255,0.2); font-size: 15px; gap: 15px;">
+                        <span>👤 Cán bộ: <strong id="officer-name">Đ/c Nguyễn Văn X</strong></span>
+                        <span>📞 SĐT: <strong id="officer-phone">0988.123.456</strong></span>
+                    </div>
+                </div>
             </div>
-            
-            <div class="flex space-x-2">
-                <div class="bg-white/30 text-white px-5 py-2 rounded-xl font-bold text-sm backdrop-blur-md border border-white/20 shadow-inner cursor-pointer">NĂM 2026</div>
-                <div class="bg-white/30 text-white px-5 py-2 rounded-xl font-bold text-sm backdrop-blur-md border border-white/20 shadow-inner cursor-pointer">THÁNG 05</div>
+           
+           <div class="filter-box d-flex gap-2">
+                <select id="year-filter" class="form-select w-auto fw-bold shadow-sm" style="font-size: 16px;">
+                    <option value="2026">Năm 2026</option>
+                    <option value="2025">Năm 2025</option>
+                </select>
+                <select id="month-filter" class="form-select w-auto fw-bold shadow-sm" style="font-size: 16px;">
+                    <option value="Tháng 5">Tháng 5</option>
+                    <option value="Tháng 4">Tháng 4</option>
+                </select>
             </div>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <div class="grid grid-cols-2 gap-6">
-                <div class="glass-card p-8">
-                    <p class="text-gray-400 text-[10px] font-black uppercase tracking-widest mb-4">Ngân sách lễ Tết</p>
-                    <h3 class="text-4xl font-black text-blue-700 mb-2">1,420 TR</h3>
-                    <p class="text-[10px] text-gray-400 font-bold mb-4">Tăng 13.6% so với đầu năm</p>
-                    <p class="text-green-500 font-black text-xl flex items-center">↑ 170 triệu</p>
-                </div>
+        <div class="social-icons-contact"> 
+            <a href="#" target="_blank" class="icon-circle zalo-circle">
+                <img src="./images/simple-icons_zalo.png" alt="Zalo" class="contact-icon">
+            </a>
+            <a href="#" target="_blank" class="icon-circle fb-circle">
+                <img src="./images/Vector.png" alt="Facebook" class="contact-icon">
+            </a>
+        </div>
 
-                <div class="glass-card p-8">
-                    <p class="text-gray-400 text-[10px] font-black uppercase tracking-widest mb-4">Hộ thoát nghèo</p>
-                    <h3 class="text-4xl font-black text-blue-700 mb-2">45</h3>
-                    <p class="text-[10px] text-gray-400 font-bold mb-4">Tăng 13.6% so với đầu năm</p>
-                    <p class="text-green-500 font-black text-xl flex items-center">↑ 12 hộ</p>
-                </div>
-
-                <div class="glass-card p-8">
-                    <p class="text-gray-400 text-[10px] font-black uppercase tracking-widest mb-4">Sự kiện văn hóa</p>
-                    <h3 class="text-4xl font-black text-blue-700 mb-2">1,420</h3>
-                    <p class="text-[10px] text-gray-400 font-bold mb-4">Tăng 13.6% so với đầu năm</p>
-                    <p class="text-green-500 font-black text-xl flex items-center">↑ 170 sự kiện</p>
-                </div>
-
-                <div class="glass-card p-8">
-                    <p class="text-gray-400 text-[10px] font-black uppercase tracking-widest mb-4">Quỹ an sinh</p>
-                    <h3 class="text-4xl font-black text-blue-700 mb-2">1,420 TR</h3>
-                    <p class="text-[10px] text-gray-400 font-bold mb-4">Tăng 13.6% so với đầu năm</p>
-                    <p class="text-green-500 font-black text-xl flex items-center">↑ 170 triệu</p>
+        <div class="row g-2 mb-2 flex-shrink-0" id="stats-grid">
+            <div class="col-12 col-sm-6 col-lg-3">
+                <div class="stat-card h-100 d-flex flex-column shadow-sm rounded-3">
+                    <div class="card-top d-flex justify-content-between mb-1">
+                        <span class="card-title fw-bold" style="font-size: 17px;">Ngân sách lễ Tết</span>
+                        <span class="card-icon">🎊</span> 
+                    </div>
+                    <div class="card-number fw-bold text-primary mb-0" style="font-size: 32px;">1.420 <span style="font-size: 20px;">TR</span></div>
+                    <div class="card-desc text-muted flex-grow-1" style="font-size: 15px;">Tăng 13.6% so với đầu năm</div>
+                    <div class="card-trend fw-bold mt-1 text-success" style="font-size: 14px;">↑ 170 triệu</div>
                 </div>
             </div>
 
-            <div class="space-y-6">
-                <div class="glass-card p-6 min-h-[280px]">
-                    <h4 class="font-black text-gray-700 text-xs uppercase mb-4 px-2">Tiến độ giảm nghèo theo đơn vị</h4>
-                    <div class="chart-container">
+            <div class="col-12 col-sm-6 col-lg-3">
+                <div class="stat-card h-100 d-flex flex-column shadow-sm rounded-3">
+                    <div class="card-top d-flex justify-content-between mb-1">
+                        <span class="card-title fw-bold" style="font-size: 17px;">Hộ thoát nghèo</span>
+                        <span class="card-icon">🏠</span>
+                    </div>
+                    <div class="card-number fw-bold text-primary mb-0" style="font-size: 32px;">45</div>
+                    <div class="card-desc text-muted flex-grow-1" style="font-size: 15px;">Tăng 13.6% so với đầu năm</div>
+                    <div class="card-trend fw-bold mt-1 text-success" style="font-size: 14px;">↑ 12 hộ</div>
+                </div>
+            </div>
+
+            <div class="col-12 col-sm-6 col-lg-3">
+                <div class="stat-card h-100 d-flex flex-column shadow-sm rounded-3">
+                    <div class="card-top d-flex justify-content-between mb-1">
+                        <span class="card-title fw-bold" style="font-size: 17px;">Sự kiện văn hóa</span>
+                        <span class="card-icon">🎭</span>
+                    </div>
+                    <div class="card-number fw-bold text-primary mb-0" style="font-size: 32px;">1.420</div>
+                    <div class="card-desc text-muted flex-grow-1" style="font-size: 15px;">Tăng 13.6% so với đầu năm</div>
+                    <div class="card-trend fw-bold mt-1 text-success" style="font-size: 14px;">↑ 170 sự kiện</div>
+                </div>
+            </div>
+
+            <div class="col-12 col-sm-6 col-lg-3">
+                <div class="stat-card h-100 d-flex flex-column shadow-sm rounded-3">
+                    <div class="card-top d-flex justify-content-between mb-1">
+                        <span class="card-title fw-bold" style="font-size: 17px;">Quỹ an sinh</span>
+                        <span class="card-icon">❤️</span>
+                    </div>
+                    <div class="card-number fw-bold text-primary mb-0" style="font-size: 32px;">1.420 <span style="font-size: 20px;">TR</span></div>
+                    <div class="card-desc text-muted flex-grow-1" style="font-size: 15px;">Tăng 13.6% so với đầu năm</div>
+                    <div class="card-trend fw-bold mt-1 text-success" style="font-size: 14px;">↑ 170 triệu</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-2 flex-grow-1" style="min-height: 0;">
+            <div class="col-12 col-lg-6 h-100">
+                <div class="stat-card shadow-sm rounded-3 h-100 d-flex flex-column">
+                    <h3 class="chart-title text-dark flex-shrink-0">Tiến độ giảm nghèo theo đơn vị</h3>
+                    <p class="chart-sub flex-shrink-0">Thống kê theo từng Ấp</p>
+                    <div class="flex-grow-1 position-relative" style="min-height: 0; width: 100%;">
                         <canvas id="povertyChart"></canvas>
                     </div>
                 </div>
+            </div>
 
-                <div class="glass-card p-6 min-h-[280px]">
-                    <h4 class="font-black text-gray-700 text-xs uppercase mb-4 px-2">Quy mô sự kiện văn hóa</h4>
-                    <div class="chart-container">
+            <div class="col-12 col-lg-6 h-100">
+                <div class="stat-card shadow-sm rounded-3 h-100 d-flex flex-column">
+                    <h3 class="chart-title text-dark flex-shrink-0">Quy mô sự kiện văn hóa</h3>
+                    <p class="chart-sub flex-shrink-0">Thống kê theo 6 tháng đầu năm</p>
+                    <div class="flex-grow-1 position-relative" style="min-height: 0; width: 100%;">
                         <canvas id="eventChart"></canvas>
                     </div>
                 </div>
             </div>
         </div>
+
     </main>
 
-    <script>
-        // Cấu hình biểu đồ chung
-        const commonOptions = {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: { legend: { display: false } },
-            scales: {
-                x: { grid: { display: false }, ticks: { font: { weight: 'bold', size: 10 } } },
-                y: { 
-                    beginAtZero: true, 
-                    grid: { color: '#f8fafc' }, 
-                    ticks: { font: { weight: 'bold', size: 10 } } 
-                }
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Cấu hình biểu đồ chung
+    const commonOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+            x: { grid: { display: false }, ticks: { font: { weight: 'bold', size: 12 } } },
+            y: { 
+                beginAtZero: true, 
+                grid: { color: '#f8fafc' }, 
+                ticks: { font: { weight: 'bold', size: 12 } } 
             }
-        };
+        }
+    };
 
-        // Biểu đồ Thanh ngang
-        new Chart(document.getElementById('povertyChart'), {
-            type: 'bar',
-            data: {
-                labels: ['Ấp 1', 'Ấp 2', 'Ấp 3', 'Ấp 4'],
-                datasets: [{
-                    data: [15, 25, 18, 30],
-                    backgroundColor: '#4ade80',
-                    borderRadius: 10,
-                    barThickness: 15
-                }]
-            },
-            options: { ...commonOptions, indexAxis: 'y' }
-        });
+    // 1. Biểu đồ Thanh ngang - Tiến độ giảm nghèo
+    const ctxPoverty = document.getElementById('povertyChart').getContext('2d');
+    new Chart(ctxPoverty, {
+        type: 'bar',
+        data: {
+            labels: ['Ấp 1', 'Ấp 2', 'Ấp 3', 'Ấp 4'],
+            datasets: [{
+                data: [15, 25, 18, 30],
+                backgroundColor: '#4ade80', // Giữ màu gốc hoặc đổi theo theme Bootstrap
+                borderRadius: 4,
+                barThickness: 25
+            }]
+        },
+        options: { 
+            ...commonOptions, 
+            indexAxis: 'y' // Trục Y hiển thị nhãn (Thanh ngang)
+        }
+    });
 
-        // Biểu đồ Cột
-        new Chart(document.getElementById('eventChart'), {
-            type: 'bar',
-            data: {
-                labels: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6'],
-                datasets: [{
-                    data: [400, 800, 600, 1100, 900, 1300],
-                    backgroundColor: '#6366f1',
-                    borderRadius: 10,
-                    barThickness: 30
-                }]
-            },
-            options: commonOptions
-        });
-    </script>
+    // 2. Biểu đồ Cột - Quy mô sự kiện
+    const ctxEvent = document.getElementById('eventChart').getContext('2d');
+    new Chart(ctxEvent, {
+        type: 'bar',
+        data: {
+            labels: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6'],
+            datasets: [{
+                data: [400, 800, 600, 1100, 900, 1300],
+                backgroundColor: '#4946ED', // Cập nhật màu xanh dương chủ đạo của UI
+                borderRadius: 4,
+                barThickness: 35
+            }]
+        },
+        options: commonOptions
+    });
+});
+</script>
 </body>
 </html>
