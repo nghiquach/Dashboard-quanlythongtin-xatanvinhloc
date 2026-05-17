@@ -299,7 +299,23 @@
         </script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="kinhte_ngansachdata.js"></script>
-<script src="./JS/Script-kinhtengansach.js"></script>
-<script src="./JS/script.js"></script>
+ <script>
+        // Hàm xử lý đóng/mở Dropdown Đăng nhập tài khoản
+        function toggleProfileMenu() {
+            const dropdown = document.getElementById('profile-dropdown');
+            if (dropdown) {
+                dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+            }
+        }
+
+        // Tự động đóng hộp đăng nhập nếu người dùng click ra vùng trống ngoài menu
+        window.addEventListener('click', function(e) {
+            const dropdown = document.getElementById('profile-dropdown');
+            const avatar = document.querySelector('.avatar-frame');
+            if (dropdown && dropdown.style.display === 'block' && !dropdown.contains(e.target) && !avatar.contains(e.target)) {
+                dropdown.style.display = 'none';
+            }
+        });
+    </script>
 </body>
 </html>
