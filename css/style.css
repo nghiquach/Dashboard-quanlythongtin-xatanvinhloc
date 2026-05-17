@@ -1,13 +1,9 @@
-@font-face {
-    font-family: 'fontchinh'; 
-    src: url('../fonts/Mainfont.ttf') format('truetype'); 
-    font-weight: normal; 
-}
+@import url('https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,1..1000&display=swap');
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'fontchinh', sans-serif; 
+    font-family: 'Google Sans Flex', sans-serif; 
 }
 
 :root {
@@ -120,7 +116,7 @@
     gap: 15px;
 }
 
-.filter-box button {
+.filter-box select {
     background-color: var(--bg-white);
     color: var(--text-black);
     border: none;
@@ -129,6 +125,7 @@
     font-size: 13px;
     font-weight: bold;
     cursor: pointer;
+    outline: none;
 }
 .social-icons {
     display: flex;
@@ -186,17 +183,21 @@
 /* LƯỚI THẺ THỐNG KÊ */
 .stats-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 4 cột đều nhau */
+    /* Tự động tính toán số cột. Mỗi ô rộng tối thiểu 200px, tối đa là giãn đều (1fr) */
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
     gap: 20px;
 }
-
 .stat-card {
     background-color: var(--bg-white);
     border-radius: 12px;
     padding: 20px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
 .card-top {
     display: flex;
     justify-content: space-between;
@@ -263,3 +264,98 @@
     border-radius: 50%; 
     border: 45px solid var(--success-green); /
 }
+/* --- CSS CHO DROPDOWN AVATAR --- */
+.user-profile {
+    position: relative; /* Trụ cột để menu neo vào */
+    margin-left: auto; 
+    margin-top: -3px;
+}
+
+.profile-dropdown {
+    position: absolute;
+    top: 55px; /* Cách avatar một đoạn vừa phải */
+    right: 0; /* Căn sát mép phải của avatar */
+    width: 260px;
+    background-color: var(--bg-white);
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    padding: 20px;
+    display: none; /* Mặc định ẨN */
+    z-index: 1000;
+    border: 1px solid #eee;
+}
+
+/* Class dùng để JS gọi ra */
+.profile-dropdown.show {
+    display: block;
+    animation: dropDownAnim 0.2s ease;
+}
+
+@keyframes dropDownAnim {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Style cho form đăng nhập mini */
+#dropdown-login-form input {
+    width: 100%;
+    padding: 10px 12px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 13px;
+    outline: none;
+}
+#dropdown-login-form input:focus {
+    border-color: var(--primary-blue);
+}
+.btn-drop-login {
+    width: 100%;
+    padding: 10px;
+    background-color: var(--primary-blue);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+/* Style cho list tính năng sau khi đăng nhập */
+.profile-links {
+    list-style: none;
+}
+.profile-links li {
+    margin-bottom: 10px;
+}
+.profile-links a {
+    text-decoration: none;
+    color: var(--text-gray-70);
+    font-size: 14px;
+}
+.profile-links a:hover {
+    color: var(--primary-blue);
+}
+/* ====== VIOLATIONS TABLE (cua trang an ninh trat tu)====== */
+        .table-card {
+            background: var(--bg-white);
+            border-radius: 12px;
+            padding: 22px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-top: 18px;
+        }
+        .table-card h3 { font-size: 16px; font-weight: 700; color: #222; margin-bottom: 4px; }
+        .table-card p.sub { font-size: 13px; color: #888; margin-bottom: 14px; }
+        table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        thead tr { background: #F5F6FF; }
+        thead th { padding: 10px 14px; text-align: left; font-weight: 700; color: var(--primary-blue); border-bottom: 2px solid #E8E8FF; }
+        tbody tr { border-bottom: 1px solid #F0F0F0; transition: background 0.15s; }
+        tbody tr:hover { background: #FAFBFF; }
+        tbody td { padding: 10px 14px; color: #444; }
+        .badge {
+            display: inline-block; padding: 3px 10px;
+            border-radius: 20px; font-size: 11px; font-weight: 700;
+        }
+        .badge.red { background: #FFEBEE; color: var(--danger-red); }
+        .badge.orange { background: #FFF3E0; color: var(--warning-orange); }
+        .badge.blue { background: #EEF0FF; color: var(--primary-blue); }

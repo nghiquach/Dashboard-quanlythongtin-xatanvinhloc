@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - CCHC & Chuyển đổi số - Đảng Ủy Xã Tân Vĩnh Lộc</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+     <li><a href="tuyen-truyen-giao-duc.html" class="menu-item active" data-tab="tuyentruyen">Tuyên truyền giáo dục</a></li>
+    <link rel="stylesheet" href="./css/style.css">
+    
+    <style>
+        :root {
+            --bg-blue: #6479F2;
+            --primary-blue: #4946ED;
+            --success-green: #43C32F;
+            --text-dark: #333;
+        }
+
+        * {
+            box-sizing: border-box; 
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* ==========================================================================
+           HỆ THỐNG CSS HEADER CHUẨN - DÙNG !IMPORTANT ĐỂ ĐÈ TRIỆT TIÊU FILE NGOÀI
+           ========================================================================== */
+        .top-nav {
+            height: 80px !important;
+            background: white !important;
+            border-radius: 0 !important;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05) !important;
+            position: relative !important;
+            z-index: 1000 !important;
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            padding: 0 40px !important;
+        }
+
+        .nav-left {
+            display: flex !important;
+            align-items: center !important;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+
+        .logo-img {
+            height: 55px !important;
+            display: block !important;
+        }
+
+        /* Khung chứa Menu và Avatar: Ép giãn cách tối đa chiếm hết khoảng trống ở giữa */
+        .header-right-holder {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: flex-end !important;
+            flex-grow: 1 !important;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+
+        .main-menu {
+            margin: 0 45px 0 0 !important; /* Tạo khoảng trống an toàn 45px trước khi tới Avatar */
+            padding: 0 !important;
+            display: block !important;
+        }
+
+        /* Khống chế danh sách menu dãn khoảng cách đều nhau tăm tắp */
+        .menu-list-custom {
+            display: flex !important;
+            list-style: none !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            gap: 35px !important; /* Khoảng cách hoàn hảo giữa các chữ menu */
+        }
+
+        .menu-item {
+            text-decoration: none !important;
+            color: #666 !important;
+            font-weight: bold !important;
+            font-size: 15px !important;
+            padding: 28px 0 !important; /* Căn giữa dọc chuẩn theo chiều cao 80px */
+            display: inline-block !important;
+            transition: all 0.2s !important;
+            border-bottom: 3px solid transparent !important;
+            margin: 0 !important;
+        }
+
+        .menu-item:hover {
+            color: var(--primary-blue) !important;
+        }
+
+        .menu-item.active {
+            color: var(--primary-blue) !important;
+            border-bottom: 3px solid var(--primary-blue) !important; /* Thanh tím dính sát đáy chuẩn chỉnh */
+        }
+
+        /* CỤM AVATAR GÓC BIÊN PHẢI */
+        .user-profile {
+            position: relative !important;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        .avatar-frame {
+            width: 42px !important;
+            height: 42px !important;
+            border-radius: 50% !important;
+            overflow: hidden !important;
+            border: 1px solid #ddd !important;
+        }
+        .user-avatar-img {
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: cover !important;
+        }
+        .profile-dropdown {
+            position: absolute !important;
+            top: 55px !important;
+            right: 0 !important;
+            background: white !important;
+            padding: 15px !important;
+            border-radius: 8px !important;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15) !important;
+            width: 250px !important;
+            display: none;
+            z-index: 1050 !important;
+        }
+        .btn-drop-login {
+            width: 100% !important;
+            background: var(--primary-blue) !important;
+            color: white !important;
+            border: none !important;
+            padding: 8px !important;
+            border-radius: 5px !important;
+            font-weight: bold !important;
+            margin-top: 10px !important;
+        }
+        .profile-dropdown input {
+            width: 100% !important;
+            margin-bottom: 8px !important;
+            padding: 8px 10px !important;
+            border: 1px solid #ddd !important;
+            border-radius: 5px !important;
+            font-size: 13px !important;
+        }
+
+        /* RESPONSIVE TRÊN MOBILE */
+        @media (max-width: 991px) {
+            .top-nav { height: auto !important; padding: 15px !important; flex-wrap: wrap !important; }
+            .header-right-holder { width: 100% !important; flex-direction: column !important; align-items: flex-start !important; gap: 10px !important; margin-top: 15px !important; }
+            .main-menu { margin-right: 0 !important; width: 100% !important; }
+            .menu-list-custom { flex-direction: column !important; width: 100% !important; gap: 5px !important; }
+            .menu-item { display: block !important; padding: 10px 0 !important; border-bottom: 1px solid #f0f0f0 !important; font-size: 17px !important; width: 100% !important; }
+            .menu-item.active { border-bottom: 1px solid #f0f0f0 !important; }
+            .user-profile { margin-top: 10px !important; }
+        }
+
+        /* ÉP PHẦN DASHBOARD KHÍT MÀN HÌNH MÁY TÍNH (NO SCROLL) */
+        @media (min-width: 992px) {
+            body { overflow: hidden; }
+            .main-dashboard {
+                height: calc(100vh - 80px); 
+                overflow: hidden;
+                background-color: var(--bg-blue);
+            }
+        }
+
+        /* CẤU TRÚC STAT CARD THỐNG KÊ */
+        .stat-card {
+            background: white;
+            padding: 15px !important; 
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        .card-icon { font-size: 24px; color: #666; }
+        .chart-title { font-size: 18px; font-weight: bold; margin-bottom: 2px; color: var(--text-dark); }
+        .chart-sub { font-size: 13px; color: gray; margin-bottom: 10px; }
+
+        /* Khối hiển thị số liệu phân đôi nhỏ bên trong card */
+        .info-group-mini { display: flex; align-items: center; justify-content: space-around; margin: 10px 0; }
+        .info-box-item { display: flex; flex-direction: column; align-items: center; }
+        .info-box-item .val { font-size: 28px; font-weight: bold; color: #0d6efd; line-height: 1.1; }
+        .info-box-item .lbl { font-size: 13px; color: #6c757d; margin-top: 2px; }
+        .info-box-divider { width: 1px; height: 35px; background-color: #dee2e6; }
+
+        /* Khối hiển thị danh sách dòng dữ liệu (Card 3 & 4) */
+        .rows-detail-list { display: flex; flex-direction: column; gap: 4px; margin-top: auto; }
+        .rows-detail-item { display: flex; justify-content: space-between; font-size: 13px; border-bottom: 1px dashed #dee2e6; padding-bottom: 3px; }
+        .rows-detail-item:last-child { border-bottom: none; padding-bottom: 0; }
+        .rows-detail-item span { color: #555; }
+        .rows-detail-item strong { color: var(--text-dark); }
+    </style>
+</head>
+<body>
+
+    <header class="top-nav">
+        
+        <div class="nav-left">
+            <img src="./images/Logo.svg" alt="Logo Đảng Cộng Sản" class="logo-img"> 
+        </div> 
+        
+        <div class="header-right-holder">
+            
+            <nav class="main-menu">
+                <ul class="menu-list-custom">
+                    <li><a href="index.html" class="menu-item">Tổng quan</a></li>
+                    <li><a href="cong-tac-dang.html" class="menu-item">Công tác Đảng</a></li>
+                    <li><a href="kinh-te-ngan-sach.html" class="menu-item">Kinh tế - Ngân sách</a></li>
+                    <li><a href="cchc-cds.html" class="menu-item active">CCHC & Chuyển đổi số</a></li>
+                    <li><a href="an-ninh-trat-tu.html" class="menu-item">An ninh - Trật tự</a></li>
+                    <li><a href="an-sinh-van-hoa.html" class="menu-item">An sinh & Văn hóa</a></li>
+                </ul>
+            </nav>
+
+            <div class="user-profile" id="user-profile-container">
+                <div class="avatar-frame" onclick="toggleProfileMenu()" style="cursor: pointer;">
+                    <img src="./images/Admin.png" alt="User Avatar" class="user-avatar-img">
+                </div>
+
+                <div class="profile-dropdown" id="profile-dropdown">
+                    <div id="unauth-view">
+                        <h4 style="margin-bottom: 12px; color: var(--primary-blue); font-size: 15px; font-weight: bold;">Đăng nhập hệ thống</h4>
+                        <form id="dropdown-login-form" onsubmit="event.preventDefault();">
+                            <input type="text" placeholder="Tên đăng nhập (admin)" required>
+                            <input type="password" placeholder="Mật khẩu (123)" required>
+                            <button type="submit" class="btn-drop-login">Đăng nhập</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </header>
+
+    <main class="main-dashboard container-fluid px-4 py-3 d-flex flex-column">
+        
+        <div class="dashboard-header d-flex flex-wrap justify-content-between align-items-center mb-2 flex-shrink-0 gap-2">
+            <div class="title-box">
+                <h1 id="header-title" class="mb-1 fs-4 fw-bold text-white text-uppercase">Cải cách hành chính & Chuyển đổi số</h1>
+                <div class="d-flex align-items-center gap-3">
+                    <p id="header-time" class="mb-0" style="font-size: 15px; color: rgba(255,255,255,0.8);">Cập nhật lúc: Hệ thống tự động cập nhật</p>
+                    <div id="officer-info" class="d-inline-flex align-items-center px-2 py-1 rounded text-white" style="background: rgba(255,255,255,0.2); font-size: 15px; gap: 15px;">
+                        <span>👤 Cán bộ: <strong id="officer-name">Đ/c Nguyễn Văn X</strong></span>
+                        <span>📞 SĐT: <strong id="officer-phone">0988.123.456</strong></span>
+                    </div>
+                </div>
+            </div>
+           
+            <div class="filter-box d-flex gap-2">
+                <select id="year-filter" class="form-select w-auto fw-bold shadow-sm" style="font-size: 16px;">
+                    <option value="2026">Năm 2026</option>
+                    <option value="2025">Năm 2025</option>
+                </select>
+                <select id="month-filter" class="form-select w-auto fw-bold shadow-sm" style="font-size: 16px;">
+                    <option value="Tháng 7">Tháng 7</option>
+                    <option value="Tháng 6">Tháng 6</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row g-2 mb-2 flex-shrink-0" id="dang-stats-grid">
+            
+            <div class="col-12 col-sm-6 col-lg-4 col-xl">
+                <div class="stat-card h-100 d-flex flex-column">
+                    <div class="d-flex justify-content-between mb-1">
+                        <span class="fw-bold" style="font-size: 17px; color: var(--text-dark);">Hồ sơ TTHC</span>
+                        <span class="card-icon">📂</span> 
+                    </div>
+                    <div class="info-group-mini flex-grow-1">
+                        <div class="info-box-item"><span class="val">1,420</span><span class="lbl">Tiếp nhận</span></div>
+                        <div class="info-box-divider"></div>
+                        <div class="info-box-item"><span class="val">1,398</span><span class="lbl">Giải quyết</span></div>
+                    </div>
+                    <div class="fw-bold mt-1" style="color: var(--success-green); font-size: 14px;">↑ 13.6% so với đầu năm</div>
+                </div>
+            </div>
+
+            <div class="col-12 col-sm-6 col-lg-4 col-xl">
+                <div class="stat-card h-100 d-flex flex-column">
+                    <div class="d-flex justify-content-between mb-1">
+                        <span class="fw-bold" style="font-size: 17px; color: var(--text-dark);">Tỷ lệ đúng hạn</span>
+                        <span class="card-icon">⏱️</span>
+                    </div>
+                    <div class="fw-bold text-primary my-2 flex-grow-1 d-flex align-items-center" style="font-size: 32px;">98.5%</div>
+                    <div class="fw-bold" style="color: var(--success-green); font-size: 14px;"><i class="fa-solid fa-circle-check"></i> Đạt chỉ tiêu xuất sắc</div>
+                </div>
+            </div>
+
+            <div class="col-12 col-sm-6 col-lg-4 col-xl">
+                <div class="stat-card h-100 d-flex flex-column">
+                    <div class="d-flex justify-content-between mb-1">
+                        <span class="fw-bold" style="font-size: 17px; color: var(--text-dark);">Chuyển đổi số (TB)</span>
+                        <span class="card-icon">💻</span>
+                    </div>
+                    <div class="fw-bold text-primary mb-1" style="font-size: 28px;">78.5%</div>
+                    <div class="rows-detail-list">
+                        <div class="rows-detail-item"><span>Chữ ký số:</span><strong>85%</strong></div>
+                        <div class="rows-detail-item"><span>Số hóa hồ sơ:</span><strong>72%</strong></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-sm-6 col-lg-6 col-xl">
+                <div class="stat-card h-100 d-flex flex-column">
+                    <div class="d-flex justify-content-between mb-1">
+                        <span class="fw-bold" style="font-size: 17px; color: var(--text-dark);">Đô thị & Nông thôn (TB)</span>
+                        <span class="card-icon">🏡</span>
+                    </div>
+                    <div class="fw-bold text-primary mb-1" style="font-size: 26px;">88.3%</div>
+                    <div class="rows-detail-list">
+                        <div class="rows-detail-item"><span>Nước sạch:</span><strong>95%</strong></div>
+                        <div class="rows-detail-item"><span>Rác thải:</span><strong>80%</strong></div>
+                        <div class="rows-detail-item"><span>Tiêm chủng trẻ em:</span><strong>90%</strong></div>
+                    </div>
+                </div>
+            </div>
+        </div> 
+
+        <div class="row g-2 flex-grow-1" style="min-height: 0;">
+            
+            <div class="col-12 col-md-6 h-100">
+                <div class="stat-card shadow-sm rounded-3 h-100 d-flex flex-column">
+                    <h3 class="chart-title">Lượng hồ sơ TTHC tiếp nhận theo tuần</h3>
+                    <p class="chart-sub flex-shrink-0">Số liệu cập nhật tự động</p>
+                    <div class="flex-grow-1 position-relative" style="min-height: 0; width: 100%;">
+                        <canvas id="lineChartTTHC"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 h-100">
+                <div class="stat-card shadow-sm rounded-3 h-100 d-flex flex-column">
+                    <h3 class="chart-title">Chỉ số Đô thị / Nông thôn mới</h3>
+                    <p class="chart-sub flex-shrink-0">Đánh giá theo tỷ lệ phần trăm %</p>
+                    <div class="flex-grow-1 position-relative" style="min-height: 0; width: 100%;">
+                        <canvas id="radarChartSocial"></canvas>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+    
+    <script>
+        // Hàm xử lý đóng/mở Dropdown Đăng nhập tài khoản
+        function toggleProfileMenu() {
+            const dropdown = document.getElementById('profile-dropdown');
+            if (dropdown) {
+                dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+            }
+        }
+
+        // Tự động đóng hộp đăng nhập nếu người dùng click ra vùng trống ngoài menu
+        window.addEventListener('click', function(e) {
+            const dropdown = document.getElementById('profile-dropdown');
+            const avatar = document.querySelector('.avatar-frame');
+            if (dropdown && dropdown.style.display === 'block' && !dropdown.contains(e.target) && !avatar.contains(e.target)) {
+                dropdown.style.display = 'none';
+            }
+        });
+    </script>
+
+    <script>
+        window.onload = function() {
+            setTimeout(function() {
+                // 1. Khởi tạo Biểu đồ Đường tuần (Có bộ Tooltip Hover thông minh)
+                const ctx1 = document.getElementById('lineChartTTHC').getContext('2d');
+                new Chart(ctx1, {
+                    type: 'line',
+                    data: {
+                        labels: ['Tuần 1', 'Tuần 2', 'Tuần 3', 'Tuần 4'],
+                        datasets: [{
+                            label: 'Số lượng hồ sơ',
+                            data: [420, 550, 480, 620],
+                            borderColor: '#4946ED',
+                            backgroundColor: 'rgba(73, 70, 237, 0.1)',
+                            fill: true,
+                            tension: 0.4,
+                            borderWidth: 4,
+                            pointRadius: 6,
+                            pointHoverRadius: 8
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { 
+                            legend: { display: false },
+                            tooltip: {
+                                enabled: true,
+                                backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                                titleFont: { size: 14, weight: 'bold' },
+                                bodyFont: { size: 13 },
+                                padding: 10,
+                                cornerRadius: 6,
+                                displayColors: false
+                            }
+                        },
+                        interaction: {
+                            mode: 'index',
+                            intersect: false
+                        },
+                        scales: {
+                            y: { beginAtZero: true }
+                        }
+                    }
+                });
+
+                // 2. Khởi tạo Biểu đồ Radar nông thôn mới (Tự gắn đuôi % khi rê chuột)
+                const ctx2 = document.getElementById('radarChartSocial').getContext('2d');
+                new Chart(ctx2, {
+                    type: 'radar',
+                    data: {
+                        labels: ['Nước sạch', 'Rác thải', 'Tiêm chủng', 'An ninh', 'Văn hóa'],
+                        datasets: [{
+                            label: 'Tỷ lệ đạt',
+                            data: [95, 80, 90, 85, 88],
+                            backgroundColor: 'rgba(67, 195, 47, 0.2)',
+                            borderColor: '#43C32F',
+                            borderWidth: 2,
+                            pointRadius: 4,
+                            pointHoverRadius: 6
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            tooltip: {
+                                enabled: true,
+                                backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                                callbacks: {
+                                    label: function(context) {
+                                        return context.label + ': ' + context.raw + '%';
+                                    }
+                                }
+                            }
+                        },
+                        scales: { 
+                            r: { 
+                                beginAtZero: true, 
+                                max: 100,
+                                ticks: { backdropColor: 'transparent' }
+                            } 
+                        }
+                    }
+                });
+            }, 100);
+        };
+    </script>
+</body>
+</html>
