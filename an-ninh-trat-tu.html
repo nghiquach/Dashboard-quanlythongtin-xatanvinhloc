@@ -18,10 +18,14 @@
             .user-profile { margin-top: 20px; margin-left: 0; }
         }
 
-        /* TỐI ƯU GIAO DIỆN VỪA IN MÀN HÌNH (NO SCROLL) CHO PC */
-        @media (min-width: 992px) {
-            body { overflow: hidden; /* Cấm cuộn trang trên máy tính */ }
-            .main-dashboard { height: calc(100vh - 80px); overflow: hidden; }
+        body { 
+            overflow-y: auto !important; /* Cho phép cuộn trang khi màn hình nhỏ */
+            background-color: var(--bg-blue);
+            min-height: 100vh;
+        }
+        .main-dashboard { 
+            height: auto !important; /* Hủy bỏ tính toán 100vh để tránh ép chiều cao */
+            padding-bottom: 40px;
         }
 
         .stat-card { padding: 15px !important; }
@@ -138,7 +142,7 @@
                 </div>
             </div>
 
-            <div class="col-12 col-lg-8 h-100">
+            <div class="col-12 col-lg-8 h-150">
                 <div class="stat-card shadow-sm rounded-3 h-100 d-flex flex-column">
                     <div class="d-flex justify-content-between align-items-center flex-shrink-0">
                         <div>
