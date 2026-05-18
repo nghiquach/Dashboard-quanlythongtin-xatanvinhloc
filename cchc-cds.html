@@ -8,215 +8,27 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="./css/style.css">
-    
-    <style>
-        :root {
-            --bg-blue: #6479F2;
-            --primary-blue: #4946ED;
-            --success-green: #43C32F;
-            --text-dark: #333;
-        }
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-        * {
-            box-sizing: border-box; 
-            font-family: 'Arial', sans-serif;
-        }
-
-        body {
-            background-color: #f0f2f5;
-            margin: 0;
-            padding: 0;
-        }
-
-        /* ==========================================================================
-           HỆ THỐNG CSS HEADER CHUẨN - DÙNG !IMPORTANT ĐỂ ĐÈ TRIỆT TIÊU FILE NGOÀI
-           ========================================================================== */
-        .top-nav {
-            height: 80px !important;
-            background: white !important;
-            border-radius: 0 !important;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05) !important;
-            position: relative !important;
-            z-index: 1000 !important;
-            display: flex !important;
-            justify-content: space-between !important;
-            align-items: center !important;
-            padding: 0 40px !important;
-        }
-
-        .nav-left {
-            display: flex !important;
-            align-items: center !important;
-            margin: 0 !important;
-            padding: 0 !important;
-        }
-
-        .logo-img {
-            height: 55px !important;
-            display: block !important;
-        }
-
-        /* Khung chứa Menu và Avatar: Ép giãn cách tối đa chiếm hết khoảng trống ở giữa */
-        .header-right-holder {
-            display: flex !important;
-            align-items: center !important;
-            justify-content: flex-end !important;
-            flex-grow: 1 !important;
-            margin: 0 !important;
-            padding: 0 !important;
-        }
-
-        .main-menu {
-            margin: 0 45px 0 0 !important; /* Tạo khoảng trống an toàn 45px trước khi tới Avatar */
-            padding: 0 !important;
-            display: block !important;
-        }
-
-        /* Khống chế danh sách menu dãn khoảng cách đều nhau tăm tắp */
-        .menu-list-custom {
-            display: flex !important;
-            list-style: none !important;
-            margin: 0 !important;
-            padding: 0 !important;
-            gap: 35px !important; /* Khoảng cách hoàn hảo giữa các chữ menu */
-        }
-
-        .menu-item {
-            text-decoration: none !important;
-            color: #666 !important;
-            font-weight: bold !important;
-            font-size: 15px !important;
-            padding: 28px 0 !important; /* Căn giữa dọc chuẩn theo chiều cao 80px */
-            display: inline-block !important;
-            transition: all 0.2s !important;
-            border-bottom: 3px solid transparent !important;
-            margin: 0 !important;
-        }
-
-        .menu-item:hover {
-            color: var(--primary-blue) !important;
-        }
-
-        .menu-item.active {
-            color: var(--primary-blue) !important;
-            border-bottom: 3px solid var(--primary-blue) !important; /* Thanh tím dính sát đáy chuẩn chỉnh */
-        }
-
-        /* CỤM AVATAR GÓC BIÊN PHẢI */
-        .user-profile {
-            position: relative !important;
-            margin: 0 !important;
-            padding: 0 !important;
-        }
-        .avatar-frame {
-            width: 42px !important;
-            height: 42px !important;
-            border-radius: 50% !important;
-            overflow: hidden !important;
-            border: 1px solid #ddd !important;
-        }
-        .user-avatar-img {
-            width: 100% !important;
-            height: 100% !important;
-            object-fit: cover !important;
-        }
-        .profile-dropdown {
-            position: absolute !important;
-            top: 55px !important;
-            right: 0 !important;
-            background: white !important;
-            padding: 15px !important;
-            border-radius: 8px !important;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15) !important;
-            width: 250px !important;
-            display: none;
-            z-index: 1050 !important;
-        }
-        .btn-drop-login {
-            width: 100% !important;
-            background: var(--primary-blue) !important;
-            color: white !important;
-            border: none !important;
-            padding: 8px !important;
-            border-radius: 5px !important;
-            font-weight: bold !important;
-            margin-top: 10px !important;
-        }
-        .profile-dropdown input {
-            width: 100% !important;
-            margin-bottom: 8px !important;
-            padding: 8px 10px !important;
-            border: 1px solid #ddd !important;
-            border-radius: 5px !important;
-            font-size: 13px !important;
-        }
-
-        /* RESPONSIVE TRÊN MOBILE */
-        @media (max-width: 991px) {
-            .top-nav { height: auto !important; padding: 15px !important; flex-wrap: wrap !important; }
-            .header-right-holder { width: 100% !important; flex-direction: column !important; align-items: flex-start !important; gap: 10px !important; margin-top: 15px !important; }
-            .main-menu { margin-right: 0 !important; width: 100% !important; }
-            .menu-list-custom { flex-direction: column !important; width: 100% !important; gap: 5px !important; }
-            .menu-item { display: block !important; padding: 10px 0 !important; border-bottom: 1px solid #f0f0f0 !important; font-size: 17px !important; width: 100% !important; }
-            .menu-item.active { border-bottom: 1px solid #f0f0f0 !important; }
-            .user-profile { margin-top: 10px !important; }
-        }
-
-        /* ÉP PHẦN DASHBOARD KHÍT MÀN HÌNH MÁY TÍNH (NO SCROLL) */
-        @media (min-width: 992px) {
-            body { overflow: hidden; }
-            .main-dashboard {
-                height: calc(100vh - 80px); 
-                overflow: hidden;
-                background-color: var(--bg-blue);
-            }
-        }
-
-        /* CẤU TRÚC STAT CARD THỐNG KÊ */
-        .stat-card {
-            background: white;
-            padding: 15px !important; 
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-        }
-        .card-icon { font-size: 24px; color: #666; }
-        .chart-title { font-size: 18px; font-weight: bold; margin-bottom: 2px; color: var(--text-dark); }
-        .chart-sub { font-size: 13px; color: gray; margin-bottom: 10px; }
-
-        /* Khối hiển thị số liệu phân đôi nhỏ bên trong card */
-        .info-group-mini { display: flex; align-items: center; justify-content: space-around; margin: 10px 0; }
-        .info-box-item { display: flex; flex-direction: column; align-items: center; }
-        .info-box-item .val { font-size: 28px; font-weight: bold; color: #0d6efd; line-height: 1.1; }
-        .info-box-item .lbl { font-size: 13px; color: #6c757d; margin-top: 2px; }
-        .info-box-divider { width: 1px; height: 35px; background-color: #dee2e6; }
-
-        /* Khối hiển thị danh sách dòng dữ liệu (Card 3 & 4) */
-        .rows-detail-list { display: flex; flex-direction: column; gap: 4px; margin-top: auto; }
-        .rows-detail-item { display: flex; justify-content: space-between; font-size: 13px; border-bottom: 1px dashed #dee2e6; padding-bottom: 3px; }
-        .rows-detail-item:last-child { border-bottom: none; padding-bottom: 0; }
-        .rows-detail-item span { color: #555; }
-        .rows-detail-item strong { color: var(--text-dark); }
-    </style>
 </head>
 <body>
-
-    <header class="top-nav">
-        
+    <header class="top-nav" style="height: 80px;">
         <div class="nav-left">
-            <img src="./images/Logo.svg" alt="Logo Đảng Cộng Sản" class="logo-img"> 
+            <div class="logo-wrapper">
+                <img src="./images/Logo.svg" alt="Logo Đảng Cộng Sản" class="logo-img"> 
+            </div>
         </div> 
         
-        <div class="header-right-holder">
-            
+        <div class="nav-right">
             <nav class="main-menu">
-                <ul class="menu-list-custom">
-                    <li><a href="index.html" class="menu-item">Tổng quan</a></li>
-                    <li><a href="cong-tac-dang.html" class="menu-item">Công tác Đảng</a></li>
-                    <li><a href="tuyen-truyen-giao-duc.html" class="menu-item active" data-tab="tuyentruyen">Tuyên truyền giáo dục</a></li>
-                    <li><a href="kinh-te-ngan-sach.html" class="menu-item">Kinh tế - Ngân sách</a></li>
-                    <li><a href="cchc-cds.html" class="menu-item active">CCHC & Chuyển đổi số</a></li>
-                    <li><a href="an-ninh-trat-tu.html" class="menu-item">An ninh - Trật tự</a></li>
-                    <li><a href="an-sinh-van-hoa.html" class="menu-item">An sinh & Văn hóa</a></li>
+                <ul class="menu-list" id="dynamic-menu">
+                    <li><a href="index.html" class="menu-item" data-tab="tongquan">Tổng quan</a></li>
+                    <li><a href="cong-tac-dang.html" class="menu-item" data-tab="congtacdang">Công tác Đảng</a></li>
+                    <li><a href="tuyen-truyen-giao-duc.html" class="menu-item" data-tab="tuyentruyen">Tuyên truyền giáo dục</a></li>
+                    <li><a href="kinh-te-ngan-sach.html" class="menu-item" data-tab="kinhte">Kinh tế - Ngân sách</a></li>
+                    <li><a href="cchc-cds.html" class="menu-item active" data-tab="cchc">CCHC & Chuyển đổi số</a></li>
+                    <li><a href="an-ninh-trat-tu.html" class="menu-item" data-tab="anninh">An ninh - Trật tự</a></li>
+                    <li><a href="an-sinh-van-hoa.html" class="menu-item" data-tab="ansinh">An sinh & Văn hóa</a></li>
                 </ul>
             </nav>
 
@@ -227,16 +39,29 @@
 
                 <div class="profile-dropdown" id="profile-dropdown">
                     <div id="unauth-view">
-                        <h4 style="margin-bottom: 12px; color: var(--primary-blue); font-size: 15px; font-weight: bold;">Đăng nhập hệ thống</h4>
-                        <form id="dropdown-login-form" onsubmit="event.preventDefault();">
-                            <input type="text" placeholder="Tên đăng nhập (admin)" required>
-                            <input type="password" placeholder="Mật khẩu (123)" required>
+                        <h4 style="margin-bottom: 12px; color: var(--primary-blue); font-size: 15px;">Đăng nhập hệ thống</h4>
+                        <form id="dropdown-login-form" onsubmit="handleLogin(event)">
+                            <input type="text" id="drop-user" placeholder="Tên đăng nhập (admin)" required>
+                            <input type="password" id="drop-pass" placeholder="Mật khẩu (123)" required>
+                            <p id="drop-error" style="color: red; font-size: 12px; margin: 5px 0;"></p>
                             <button type="submit" class="btn-drop-login">Đăng nhập</button>
                         </form>
                     </div>
+
+                    <div id="auth-view" style="display: none;">
+                        <div class="user-info">
+                            <strong>Admin Đảng Ủy</strong>
+                            <p style="font-size: 12px; color: gray; margin-top: 3px;">admin@tanvinhloc.vn</p>
+                        </div>
+                        <hr style="margin: 12px 0; border: 0; border-top: 1px solid #eee;">
+                        <ul class="profile-links">
+                            <li><a href="#">Quản lý form nhập liệu</a></li>
+                            <li><a href="#">Cài đặt hệ thống</a></li>
+                            <li><a href="#" onclick="handleLogout()" style="color: red; font-weight: bold;">Đăng xuất</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-
         </div>
     </header>
 
@@ -326,7 +151,7 @@
 
         <div class="row g-2 flex-grow-1" style="min-height: 0;">
             
-            <div class="col-12 col-md-6 h-100">
+            <div class="col-12 col-md-6 h-150">
                 <div class="stat-card shadow-sm rounded-3 h-100 d-flex flex-column">
                     <h3 class="chart-title">Lượng hồ sơ TTHC tiếp nhận theo tuần</h3>
                     <p class="chart-sub flex-shrink-0">Số liệu cập nhật tự động</p>
